@@ -1,5 +1,5 @@
 """
-http://docs.bitfinex.com/
+https://poloniex.com/support/api/
 """
 
 # Import Built-Ins
