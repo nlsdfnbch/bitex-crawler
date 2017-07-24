@@ -9,6 +9,7 @@ from threading import Thread
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 
 class WSSAPI:

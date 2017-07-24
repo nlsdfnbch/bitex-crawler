@@ -15,11 +15,14 @@ log = logging.getLogger(__name__)
 
 
 class GDAXWSS(WSSAPI):
-    def __init__(self):
+    def __init__(self, pairs=None):
         super(GDAXWSS, self).__init__('wss://ws-feed.gdax.com', 'GDAX')
         self.conn = None
-        r = requests.get('https://api.gdax.com/products').json()
-        self.pairs = [x['id'] for x in r]
+        if not pairs:
+            r = requests.get('https://api.gdax.com/products').json()
+            self.pairs = [x['id'] for x in r]
+        else:
+            self.pairs = pairs
         self._data_thread = None
 
     def start(self):

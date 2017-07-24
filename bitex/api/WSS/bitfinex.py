@@ -27,6 +27,7 @@ from bitex.api.WSS.exceptions import FaultyPayloadError
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 
 class BitfinexWSS(WSSAPI):
@@ -36,7 +37,7 @@ class BitfinexWSS(WSSAPI):
     the Server issues a connection reset.
     """
 
-    def __init__(self, pairs=None):
+    def __init__(self, pairs=None, endpoints=('ticker', 'order_book', 'ohlc', 'trades')):
         """
         Initializes BitfinexWSS Instance.
         :param key: Api Key as string
@@ -52,6 +53,8 @@ class BitfinexWSS(WSSAPI):
                           'ZECUSD', 'ZECBTC', 'XMRUSD', 'XMRBTC', 'LTCUSD',
                           'LTCBTC', 'DSHUSD', 'DSHBTC']
 
+        self.endpoints = endpoints
+
         # Set up variables for receiver and main loop threads
         self._receiver_lock = threading.Lock()
         self._processor_lock = threading.Lock()
@@ -60,7 +63,7 @@ class BitfinexWSS(WSSAPI):
         self.processing_thread = None
 
         self.ping_timer = None
-        self.timeout = 5
+        self.timeout = 15
         self._heartbeats = {}
         self._late_heartbeats = {}
 
@@ -209,7 +212,9 @@ class BitfinexWSS(WSSAPI):
         else:
             log.info("BitfinexWSS.start(): Thread not started! "
                      "self.processing_thread is populated!")
-
+        if self.conn is None:
+            log.info("Conn is somehow none even though we're trying to setup subscriptions")
+            self.start()
         self.setup_subscriptions()
 
     def stop(self):
@@ -706,11 +711,16 @@ class BitfinexWSS(WSSAPI):
     def setup_subscriptions(self):
         self.config(decimals_as_strings=True)
         for pair in self.pairs:
-            self.ticker(pair)
-            self.ohlc(pair)
-            self.order_book(pair)
-            self.raw_order_book(pair)
-            self.trades(pair)
+            if 'ticker' in self.endpoints:
+                self.ticker(pair)
+            if 'ohlc' in self.endpoints:
+                self.ohlc(pair)
+            if 'order_book' in self.endpoints:
+                self.order_book(pair)
+            if 'raw_book' in self.endpoints:
+                self.raw_order_book(pair)
+            if 'trades' in self.endpoints:
+                self.trades(pair)
 
     def config(self, decimals_as_strings=True, ts_as_dates=False,
                sequencing=False, **kwargs):
@@ -759,7 +769,7 @@ class BitfinexWSS(WSSAPI):
         :param kwargs:
         :return:
         """
-        self._subscribe('book', symbol=pair, **kwargs)
+        self._subscribe('book', symbol=pair, prec='P0', freq='F0', **kwargs)
 
     def raw_order_book(self, pair, prec=None, **kwargs):
         """
