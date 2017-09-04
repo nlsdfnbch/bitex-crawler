@@ -9,8 +9,10 @@ install:
   - python3 setup.py install
 
 # command to run tests
-script: python -m unittest formatters
+script: 
+  - cd tests
+  - python -m unittest formatters.py
 branches:
   only:
   - master
-  - stable
+  - dev
