@@ -11,7 +11,7 @@ install:
 # command to run tests
 script: 
   - cd tests
-  - python -m unittest formatters.py
+  - python -m unittest *.py
 branches:
   only:
   - master
