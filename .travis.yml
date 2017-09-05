@@ -1,8 +1,7 @@
 language: python
 python:
   - "3.5"
-  - "3.4"
-  - "2.7"
+  - "3.6"
 
 install: 
   - pip install BitEx
@@ -11,7 +10,10 @@ install:
 # command to run tests
 script: 
   - cd tests
-  - python -m unittest *.py
+  - python -m unittest formatters.py
+  - python -m unittest api.py
+
+
 branches:
   only:
   - master
