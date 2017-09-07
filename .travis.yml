@@ -1,0 +1,20 @@
+language: python
+python:
+  - "3.5"
+  - "3.6"
+
+install: 
+  - pip install BitEx
+  - python3 setup.py install
+
+# command to run tests
+script: 
+  - cd tests
+  - python -m unittest formatters.py
+  - python -m unittest api.py
+
+
+branches:
+  only:
+  - master
+  - dev

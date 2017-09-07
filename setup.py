@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 
 
 setup(name='BitEx', version='1.2.0', author='Nils Diefenbach',
