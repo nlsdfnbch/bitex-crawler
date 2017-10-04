@@ -27,7 +27,7 @@ class KrknFormatter(Formatter):
 
         We expect 6 or 8 character strings, but do not explicitly check for it.
         Should the string be of uneven length, we'll split the pair in the middle
-        like so:
+        like this:
         BTC-LTC -> BTC, LTC.
 
         Furthermore, since Kraken uses 'XBT' as Bitcoins symbol, we look for, and

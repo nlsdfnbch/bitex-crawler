@@ -157,7 +157,7 @@ class BitfinexWSS(WSSAPI):
 
     def _check_ping(self):
         """
-        Checks if the ping command timed out and raises TimeoutError if so.
+        Checks if the ping command timed out and raises TimeoutError in that case.
         :return:
         """
         if time.time() - self.ping_timer > self.timeout:
@@ -173,7 +173,7 @@ class BitfinexWSS(WSSAPI):
 
     def unpause(self):
         """
-        Unpauses the client
+        Resumes the client
         :return:
         """
         self._receiver_lock.release()
@@ -181,7 +181,7 @@ class BitfinexWSS(WSSAPI):
 
     def start(self):
         """
-        Start the websocket client threads
+        Starts the websocket client threads
         :return:
         """
         super(BitfinexWSS, self).start()
@@ -214,7 +214,7 @@ class BitfinexWSS(WSSAPI):
 
     def stop(self):
         """
-        Stop all threads and modules of the client.
+        Stopsssssssssssssss all threads and modules of the client.
         :return:
         """
         super(BitfinexWSS, self).stop()
@@ -402,7 +402,7 @@ class BitfinexWSS(WSSAPI):
         """
         Handles responses to subscribe() commands - registers a channel id with
         the client and assigns a data handler to it.
-        :param chanId: int, represent channel id as assigned by server
+        :param chanId: int, represents channel id as assigned by server
         :param channel: str, represents channel name
         """
         log.debug("_handle_subscribed: %s - %s - %s", chanId, channel, kwargs)
@@ -445,7 +445,7 @@ class BitfinexWSS(WSSAPI):
         """
         Handles responses to unsubscribe() commands - removes a channel id from
         the client.
-        :param chanId: int, represent channel id as assigned by server
+        :param chanId: int, represents channel id as assigned by server
         """
         log.debug("_handle_unsubscribed: %s - %s", chanId, kwargs)
         try:
@@ -481,7 +481,7 @@ class BitfinexWSS(WSSAPI):
 
     def _handle_info(self, *args, **kwargs):
         """
-        Handles info messages and executed corresponding code
+        Handles info messages and executes corresponding code.
         """
         if 'version' in kwargs:
             # set api version number and exit
@@ -494,7 +494,7 @@ class BitfinexWSS(WSSAPI):
             raise FaultyPayloadError("_handle_info: %s" % kwargs)
 
         if not info_code.startswith('2'):
-            raise ValueError("Info Code must start with 2! %s", kwargs)
+            raise ValueError("Info Code must start with 2 ! %s", kwargs)
 
         output_msg = "_handle_info(): %s" % kwargs
         log.info(output_msg)
@@ -524,7 +524,7 @@ class BitfinexWSS(WSSAPI):
 
     def handle_data(self, ts, msg):
         """
-        Passes msg to responding data handler, determined by its channel id,
+        Passes msg to corresponding data handler, determined by its channel id,
         which is expected at index 0.
         :param ts: timestamp, declares when data was received by the client
         :param msg: list or dict of websocket data
@@ -606,7 +606,7 @@ class BitfinexWSS(WSSAPI):
 
     def _handle_candles(self, ts, chan_id, data):
         """
-        Stores OHLC data received via wss in self.candles[chan_id]
+        Stores OHLC data received via WSS in self.candles[chan_id]
         :param ts: timestamp, declares when data was received by the client
         :param chan_id: int, channel id
         :param data: list of data received via wss
@@ -731,10 +731,10 @@ class BitfinexWSS(WSSAPI):
     def config(self, decimals_as_strings=True, ts_as_dates=False,
                sequencing=False, **kwargs):
         """
-        Send configuration to websocket server
-        :param decimals_as_strings: bool, turn on/off decimals as strings
-        :param ts_as_dates: bool, decide to request timestamps as dates instead
-        :param sequencing: bool, turn on sequencing
+        Sends configuration to websocket server
+        :param decimals_as_strings: bool, turns on/off decimals as strings
+        :param ts_as_dates: bool, decides to request timestamps as dates instead
+        :param sequencing: bool, turns on sequencing
         :param kwargs:
         :return:
         """
@@ -761,7 +761,7 @@ class BitfinexWSS(WSSAPI):
 
     def ticker(self, pair, **kwargs):
         """
-        Subscribe to the passed pair's ticker channel.
+        Subscribes to the passed pair's ticker channel.
         :param pair: str, Pair to request data for.
         :param kwargs:
         :return:
@@ -770,7 +770,7 @@ class BitfinexWSS(WSSAPI):
 
     def order_book(self, pair, **kwargs):
         """
-        Subscribe to the passed pair's order book channel.
+        Subscribes to the passed pair's order book channel.
         :param pair: str, Pair to request data for.
         :param kwargs:
         :return:
@@ -779,7 +779,7 @@ class BitfinexWSS(WSSAPI):
 
     def raw_order_book(self, pair, prec=None, **kwargs):
         """
-        Subscribe to the passed pair's raw order book channel.
+        Subscribes to the passed pair's raw order book channel.
         :param pair: str, Pair to request data for.
         :param kwargs:
         :return:
@@ -789,7 +789,7 @@ class BitfinexWSS(WSSAPI):
 
     def trades(self, pair, **kwargs):
         """
-        Subscribe to the passed pair's trades channel.
+        Subscribes to the passed pair's trades channel.
         :param pair: str, Pair to request data for.
         :param kwargs:
         :return:
@@ -798,7 +798,7 @@ class BitfinexWSS(WSSAPI):
 
     def ohlc(self, pair, timeframe=None, **kwargs):
         """
-        Subscribe to the passed pair's OHLC data channel.
+        Subscribes to the passed pair's OHLC data channel.
         :param pair: str, Pair to request data for.
         :param timeframe: str, {1m, 5m, 15m, 30m, 1h, 3h, 6h, 12h,
                                 1D, 7D, 14D, 1M}

@@ -42,7 +42,7 @@ class WSSAPI:
 
     def start(self):
         """
-        Starts threads. Extend this in your child class.
+        Starts threads. Extend this to your child class.
         :return:
         """
         log.info("WSSAPI.start(): Starting Basic Facilities")
@@ -86,7 +86,7 @@ class WSSAPI:
 
     def send(self, payload):
         """
-        Method to send instructions for subcribing, unsubscribing, etc to
+        Method to send instructions for subscribing, unsubscribing, etc. to
         the exchange API.
         :return:
         """

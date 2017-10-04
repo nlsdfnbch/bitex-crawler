@@ -29,7 +29,7 @@ class BtfxServerInfo(Exception):
 
 class RestartServiceInfo(BtfxServerInfo):
     """
-    The server has issued us to restart / reconnect to the websocket service.
+    The server has issued a restart / reconnect to the websocket service.
     """
     def __init__(self, message=None):
         if not message:
@@ -85,7 +85,7 @@ class GenericSubscriptionError(BtfxServerError):
 
 class AlreadySubscribedError(BtfxServerError):
     """
-    The subscription existed already.
+    The subscription already exists.
     """
     def __init__(self, message=None):
         if not message:
@@ -169,7 +169,7 @@ class BtfxClientError(Exception):
     """
     General class for BtfxWSS Client-related errors. This includes errors raised due
     to unknown events, status codes, and book-keeping errors (i.e. duplicate
-    subscriptions and the like).
+    subscriptions and the likes of it).
 
     These should be raised, as they indicate an error in code and function,
     possibly leading to faulty data.
@@ -232,7 +232,7 @@ class UnknownWSSInfo(BtfxClientError):
 class AlreadyRegisteredError(BtfxClientError):
     """
     Raised when a subscription response is received, but the channel ID has
-    already been registered in BtfxWSS.channels attribute;
+    already been registered in BtfxWSS.channels attribute.
     """
     def __init__(self, message=None):
         if not message:

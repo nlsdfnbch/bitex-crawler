@@ -17,18 +17,18 @@ log = logging.getLogger(__name__)
 
 class APIClient(metaclass=ABCMeta):
     """
-    Base Class for API ojects. Provides basic methods to interact
+    Base Class for API ojects. It provides basic methods to interact
     with exchange APIs, such as sending queries and signing messages to pass
     authentication.
     """
 
     def __init__(self, uri, api_version=None, key=None, secret=None, timeout=5):
         """
-        Create API Client object.
+        Creates API Client object.
         :param uri: string address for api (i.e. https://api.kraken.com/
-        :param api_version: version, as required to query an endpoint
-        :param key: API access key
-        :param secret: API secret
+        :param api_version: version, as required to query an endpoint.
+        :param key: API access key.
+        :param secret: API secret.
         """
         self.key = key
         self.secret = secret
@@ -36,7 +36,7 @@ class APIClient(metaclass=ABCMeta):
         self.version = api_version if api_version else ''
         self.timeout = timeout
         log.debug("Initialized API Client for URI: %s; "
-                  "Will request on API version: %s" %
+                  "Will request API version: %s" %
                   (self.uri, self.version))
 
     def load_key(self, path):
@@ -58,7 +58,7 @@ class APIClient(metaclass=ABCMeta):
     @staticmethod
     def api_request(*args, **kwargs):
         """
-        Wrapper which converts a requests.Response into our custom APIResponse
+        Wrapper which converts a requests.Gives response into our custom APIResponse
         object
         :param args:
         :param kwargs:

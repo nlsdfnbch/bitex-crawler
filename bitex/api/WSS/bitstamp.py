@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 
 class BitstampWSS(WSSAPI):
     """
-    Creates a BitstampWSS Object, which automatically describes to all
+    Creates a BitstampWSS Object, which automatically describes all
     available endpoints of the  Bitstamp Websocket API.
 
     By Default, data is printed to stdout. If you'd like to customize this
@@ -215,7 +215,7 @@ class BitstampWSS(WSSAPI):
 
     def _register_bindings(self, data):
         """
-        connection_handler method which is called when we connect to pusher.
+        connection_handler method, which is called when we connect to pusher.
         Responsible for binding callbacks to channels before we connect.
         :return:
         """

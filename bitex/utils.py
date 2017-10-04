@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 
 def return_api_response(formatter=None):
     """
-    Decorator, which Applies the referenced formatter (if available) to the
+    Decorator, which applies the referenced formatter (if available) to the
     function output and adds it to the APIResponse Object's `formatted`
     attribute.
     :param formatter: bitex.formatters.Formatter() obj

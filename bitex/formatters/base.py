@@ -1,6 +1,6 @@
 """
-Base Class for formatters. Does nothing with passed data by default;
-Children should implement formatters as necessary
+Base Class for formatters,it does nothing with passed data by default;
+Children should implement formatters as necessary.
 """
 
 # Import Built-Ins

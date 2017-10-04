@@ -90,7 +90,7 @@ class GeminiWSS(WSSAPI):
         while not all(not self.endpoint_threads[x].is_alive() for x in self.endpoint_threads):
             time.sleep(1)
             log.debug('stop(): Waiting for threads to shutdown..')
-        log.debug("stop(): Shutting down complete - running Grabage Collector..")
+        log.debug("stop(): Shutting down complete - running Garbage Collector..")
         self.garbage_collector()
 
     def restart(self):

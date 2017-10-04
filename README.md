@@ -47,7 +47,7 @@ BTC @ 3D4yuyf84eQUauyZLoQKyouPuThoxMMRZa
 Additional clients will be added to (or removed from) this list, 
 according to their liquidity and market volume.
 
-[^1]: This table considers standardized methods only, when describing the state. See section `Standardized Methods` for more
+[^1]: This table considers standardized methods only, when describing the state. See section `Standardized Methods` for more.
 
 # bitex.api.REST
 
@@ -156,7 +156,7 @@ of a new attribute, `formatted`, which stores a standardized representation of t
 
 # bitex.formatters
 
-This module provide formatters for the standardized methods, formatting their json output into a uniform layout. They are a work in progress feature.
+This module provide formatters for the standardized methods, formatting their json output into a uniform layout. This is a work in progress feature.
 
 Be mindful that, in order to provide a unified output format, some fields have been dropped in the formatted output! If you rely on one of these dropped fields, be sure to use the `APIResponse`'s `json` attribute instead, and parse the json yourself:
 
