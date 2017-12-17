@@ -11,9 +11,6 @@ from bitex.utils import check_and_format_pair
 log = logging.getLogger(__name__)
 
 
-import pdb
-
-
 class Poloniex(RESTInterface):
     """Poloniex Interface class."""
 

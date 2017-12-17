@@ -60,8 +60,7 @@ class CCEX(RESTInterface):
         payload = {'a': 'selllimit',
                    'market': pair,
                    'quantity': size,
-                   'rate': price
-                   }
+                   'rate': price}
         payload.update(kwargs)
         return self.request(None, authenticate=True, params=payload)
 
@@ -71,8 +70,7 @@ class CCEX(RESTInterface):
         payload = {'a': 'buylimit',
                    'market': pair,
                    'quantity': size,
-                   'rate': price
-                   }
+                   'rate': price}
         payload.update(kwargs)
         return self.request(None, authenticate=True, params=payload)
 
