@@ -16,7 +16,8 @@ class TheRockTrading(RESTInterface):
 
     def __init__(self, **api_kwargs):
         """Initialize Interface class instance."""
-        super(TheRockTrading, self).__init__('The Rock Trading Ltd.', RockTradingREST(**api_kwargs))
+        super(TheRockTrading, self).__init__('The Rock Trading Ltd.',
+                                             RockTradingREST(**api_kwargs))
 
     def _get_supported_pairs(self):
         """Return a list of all supported pairs."""
@@ -43,7 +44,8 @@ class TheRockTrading(RESTInterface):
         """Place an order with the given parameters."""
         payload = {'price': price, 'amount': size, 'side': side}
         payload.update(kwargs)
-        return self.request('POST', 'funds/%s/orders' % pair, authenticate=True, params=payload)
+        return self.request('POST', 'funds/%s/orders' % pair,
+                            authenticate=True, params=payload)
 
     @check_and_format_pair
     def ask(self, pair, price, size, *args, **kwargs):
@@ -63,16 +65,16 @@ class TheRockTrading(RESTInterface):
             pair = kwargs.pop('pair')
         except KeyError:
             pair = kwargs.pop('fund_id')
-        return self.request('GET', 'funds/%s/orders/%s' % (pair, order_id), authenticate=True,
-                            params=kwargs)
+        return self.request('GET', 'funds/%s/orders/%s' % (pair, order_id),
+                            authenticate=True, params=kwargs)
 
     def open_orders(self, *args, **kwargs):
         """Return all open orders."""
         if 'pair' not in kwargs and 'fund_id' not in kwargs:
             results = []
             for fund_id in self.supported_pairs:
-                r = self.request('GET', 'funds/%s/orders' % fund_id, authenticate=True,
-                                 params=kwargs)
+                r = self.request('GET', 'funds/%s/orders' % fund_id,
+                                 authenticate=True, params=kwargs)
                 results.append(r)
             return results if len(results) > 1 else results[0]
         try:
@@ -80,7 +82,8 @@ class TheRockTrading(RESTInterface):
         except KeyError:
             pair = kwargs.pop('fund_id')
 
-        return self.request('GET', 'funds/%s/orders' % pair, authenticate=True, params=kwargs)
+        return self.request('GET', 'funds/%s/orders' % pair,
+                            authenticate=True, params=kwargs)
 
     # pylint: disable=arguments-differ
     def cancel_order(self, *order_ids, all_orders=False, **kwargs):
@@ -97,14 +100,15 @@ class TheRockTrading(RESTInterface):
             except KeyboardInterrupt:
                 pair = kwargs.pop('fund_id')
         if all_orders:
-            return self.request('DELETE', 'funds/%s/orders/remove_all' % pair, authenticate=True,
-                                params=kwargs)
+            return self.request('DELETE', 'funds/%s/orders/remove_all' % pair,
+                                authenticate=True, params=kwargs)
         for oid in order_ids:
-            r = self.request('DELETE', 'funds/%s/orders/%s' % (pair, oid), authenticate=True,
-                             params=kwargs)
+            r = self.request('DELETE', 'funds/%s/orders/%s' % (pair, oid),
+                             authenticate=True, params=kwargs)
             results.append(r)
         return results if len(results) > 1 else results[0]
 
     def wallet(self, *args, **kwargs):
         """Return the account's wallet."""
-        return self.request('GET', 'balances', authenticate=True, params=kwargs)
+        return self.request('GET', 'balances', authenticate=True,
+                            params=kwargs)

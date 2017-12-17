@@ -17,7 +17,9 @@ class IncompleteCredentialsWarning(UserWarning):
 
 
 class IncompleteCredentialConfigurationWarning(UserWarning):
-    """Raised when a required parameter for authentication isn't found in a config file."""
+    """Raised when a required parameter for authentication isn't found in a
+    config file.
+    """
 
     pass
 
@@ -25,15 +27,17 @@ class IncompleteCredentialConfigurationWarning(UserWarning):
 class IncompleteCredentialsError(Exception):
     """Raised when attempting to call private_query() of an API.
 
-    For example when missing essential values to create a message signature (key, secret
-    or additional other values, dependent on the exchange).
+    For example when missing essential values to create a message signature
+    (key, secret or additional other values, dependent on the exchange).
     """
 
     pass
 
 
 class IncompleteAPIConfigurationWarning(UserWarning):
-    """Raised if either the version or address key word is not found in a given config file."""
+    """Raised if either the version or address key word is not found in a
+    given config file.
+    """
 
     pass
 
@@ -51,6 +55,8 @@ class UnsupportedPairError(ValueError):
 
 
 class UnsupportedEndpointError(AttributeError):
-    """Raised if a call to an API method, not part of the current API version, is made."""
+    """Raised if a call to an API method, not part of the current API version,
+    is made.
+    """
 
     pass

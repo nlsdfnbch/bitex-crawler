@@ -33,9 +33,9 @@ class ITbitREST(RESTAPI):
             raise ValueError("Invalid user id - cannot be empty string! "
                              "Pass None instead!")
         self.user_id = user_id
-        super(ITbitREST, self).__init__(addr=addr, version=version, key=key,
-                                        secret=secret, timeout=timeout,
-                                        config=config)
+        super(ITbitREST, self).__init__(addr=addr, version=version,
+                                        key=key, secret=secret,
+                                        timeout=timeout, config=config)
 
     def check_auth_requirements(self):
         """Check if authentication requirements are met."""
@@ -96,8 +96,10 @@ class ITbitREST(RESTAPI):
         signature = base64.b64encode(hmac_digest)
 
         # Update request kwargs header variable
-        req_kwargs['headers'] = {'Authorization': self.key + ':' + signature.decode('utf8'),
-                                 'X-Auth-Timestamp': timestamp,
-                                 'X-Auth-Nonce': nonce,
-                                 'Content-Type': 'application/json'}
+        req_kwargs['headers'] = {
+            'Authorization': self.key + ':' + signature.decode('utf8'),
+            'X-Auth-Timestamp': timestamp,
+            'X-Auth-Nonce': nonce,
+            'Content-Type': 'application/json'
+        }
         return req_kwargs

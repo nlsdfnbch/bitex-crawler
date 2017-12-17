@@ -35,10 +35,10 @@ class Bitfinex(RESTInterface):
                        'cancel_all_orders', 'cancel_multiple_orders',
                        'replace_order', 'active_orders', 'active_positions',
                        'active_credits', 'balance_history', 'past_trades',
-                       'deposit_withdrawal_history', 'new_offer', 'cancel_offer',
-                       'offer_status', 'unused_taken_funds', 'taken_funds',
-                       'total_taken_funds', 'close_funding', 'basket_manage',
-                       'lends', 'funding_book']
+                       'deposit_withdrawal_history', 'new_offer',
+                       'cancel_offer', 'offer_status', 'unused_taken_funds',
+                       'taken_funds', 'total_taken_funds', 'close_funding',
+                       'basket_manage', 'lends', 'funding_book']
 
     def __init__(self, **api_kwargs):
         """Initialize class instance."""
@@ -47,15 +47,18 @@ class Bitfinex(RESTInterface):
     def request(self, endpoint, authenticate=False, **req_kwargs):
         """Preprocess request to API."""
         if not authenticate:
-            return super(Bitfinex, self).request('GET', endpoint, authenticate=authenticate,
+            return super(Bitfinex, self).request('GET', endpoint,
+                                                 authenticate=authenticate,
                                                  **req_kwargs)
-        return super(Bitfinex, self).request('POST', endpoint, authenticate=authenticate,
+        return super(Bitfinex, self).request('POST', endpoint,
+                                             authenticate=authenticate,
                                              **req_kwargs)
 
     def _get_supported_pairs(self):
         """Return supported pairs."""
         if self.REST.version == 'v1':
             return self.symbols().json()
+
         return requests.get('https://api.bitfinex.com/v1/symbols').json()
 
     ###############
@@ -100,15 +103,16 @@ class Bitfinex(RESTInterface):
 
     def _place_order(self, pair, price, size, side, **kwargs):
         """Place an order with the given parameters."""
-        payload = {'symbol': pair, 'price': price, 'amount': size, 'side': side,
-                   'type': 'exchange-limit'}
+        payload = {'symbol': pair, 'price': price, 'amount': size,
+                   'side': side, 'type': 'exchange-limit'}
         payload.update(kwargs)
         return self.new_order(pair, **payload)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def order_status(self, order_id, *args, **kwargs):
         """Return the order status for the given id."""
-        return self.request('order/status', authenticate=True, params={'order_id': order_id})
+        return self.request('order/status', authenticate=True,
+                            params={'order_id': order_id})
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def open_orders(self, *args, **kwargs):
@@ -150,20 +154,24 @@ class Bitfinex(RESTInterface):
         side = endpoint_kwargs.pop('side')
         section = endpoint_kwargs.pop('section')
         path = key, size, pair, side, section
-        return self.request('stats1/%s:%s:%s:%s/%s' % path, params=endpoint_kwargs)
+        return self.request('stats1/%s:%s:%s:%s/%s' % path,
+                            params=endpoint_kwargs)
 
     def margin_info(self, **endpoint_kwargs):
         """Return margin information."""
         if self.REST.version == 'v1':
             return self.request('margin_info', authenticate=True)
         key = endpoint_kwargs.pop('key')
-        return self.request('auth/r/margin/%s' % key, authenticate=True, params=endpoint_kwargs)
+        return self.request('auth/r/margin/%s' % key, authenticate=True,
+                            params=endpoint_kwargs)
 
     def offers(self, **endpoint_kwargs):
         """Return all offers placed via the account."""
         if self.REST.version == 'v1':
-            return self.request('offers', authenticate=True, params=endpoint_kwargs)
-        return self.request('auth/r/offers', authenticate=True, params=endpoint_kwargs)
+            return self.request('offers', authenticate=True,
+                                params=endpoint_kwargs)
+        return self.request('auth/r/offers', authenticate=True,
+                            params=endpoint_kwargs)
 
     ########################
     # Version 1 Only Methods
@@ -214,7 +222,8 @@ class Bitfinex(RESTInterface):
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def deposit(self, **endpoint_kwargs):
         """Deposit currency."""
-        return self.request('deposit', authenticate=True, params=endpoint_kwargs)
+        return self.request('deposit', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def key_info(self):
@@ -224,7 +233,8 @@ class Bitfinex(RESTInterface):
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def funding_info(self, pair, **endpoint_kwargs):
         """Return funcing information for the account."""
-        return self.request('auth/r/funding/%s' % pair, authenticate=True, params=endpoint_kwargs)
+        return self.request('auth/r/funding/%s' % pair, authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def balances(self):
@@ -234,12 +244,14 @@ class Bitfinex(RESTInterface):
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def transfer(self, **endpoint_kwargs):
         """Transfer currency."""
-        return self.request('transfer', authenticate=True, params=endpoint_kwargs)
+        return self.request('transfer', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def withdrawal(self, **endpoint_kwargs):
         """Withdraw currency."""
-        return self.request('withdraw', authenticate=True, params=endpoint_kwargs)
+        return self.request('withdraw', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     @check_and_format_pair
@@ -269,7 +281,8 @@ class Bitfinex(RESTInterface):
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def replace_order(self, **endpoint_kwargs):
         """Substitute an order."""
-        return self.request('order/cancel/replace', authenticate=True, params=endpoint_kwargs)
+        return self.request('order/cancel/replace', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def active_orders(self, *args, **kwargs):  # pylint: disable=unused-argument
@@ -284,17 +297,20 @@ class Bitfinex(RESTInterface):
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def claim_position(self, **endpoint_kwargs):
         """Return currently claimed positions."""
-        return self.request('position/claim', authenticate=True, params=endpoint_kwargs)
+        return self.request('position/claim', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def balance_history(self, **endpoint_kwargs):
         """Return balance history of the account."""
-        return self.request('history', authenticate=True, params=endpoint_kwargs)
+        return self.request('history', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def deposit_withdrawal_history(self, **endpoint_kwargs):
         """Return the deposit/withdrawal history of the account."""
-        return self.request('history/movement', authenticate=True, params=endpoint_kwargs)
+        return self.request('history/movement', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     @check_and_format_pair
@@ -308,47 +324,56 @@ class Bitfinex(RESTInterface):
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def new_offer(self, **endpoint_kwargs):
         """Place a new offer."""
-        return self.request('offer/new', authenticate=True, params=endpoint_kwargs)
+        return self.request('offer/new', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def cancel_offer(self, **endpoint_kwargs):
         """Cancel an existing offer."""
-        return self.request('offer/cancel', authenticate=False, params=endpoint_kwargs)
+        return self.request('offer/cancel', authenticate=False,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def offer_status(self, **endpoint_kwargs):
         """Return offer status."""
-        return self.request('offer/status', authenticate=True, params=endpoint_kwargs)
+        return self.request('offer/status', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def active_credits(self, **endpoint_kwargs):
         """Return active given credits."""
-        return self.request('credits', authenticate=True, params=endpoint_kwargs)
+        return self.request('credits', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def taken_funds(self, **endpoint_kwargs):
         """Return taken funds."""
-        return self.request('taken_funds', authenticate=True, params=endpoint_kwargs)
+        return self.request('taken_funds', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def unused_taken_funds(self, **endpoint_kwargs):
         """Return available funds."""
-        return self.request('unused_taken_funds', authenticate=True, params=endpoint_kwargs)
+        return self.request('unused_taken_funds', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def total_taken_funds(self, **endpoint_kwargs):
         """Return total taken funds."""
-        return self.request('total_taken_funds', authenticate=True, params=endpoint_kwargs)
+        return self.request('total_taken_funds', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def close_funding(self, **endpoint_kwargs):
         """Close funding."""
-        return self.request('funding/close', authenticate=True, params=endpoint_kwargs)
+        return self.request('funding/close', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def basket_manage(self, **endpoint_kwargs):
         """See bitfinex docs."""
-        return self.request('basket_manage', authenticate=True, params=endpoint_kwargs)
+        return self.request('basket_manage', authenticate=True,
+                            params=endpoint_kwargs)
 
     ########################
     # Version 2 Only Methods
@@ -359,7 +384,8 @@ class Bitfinex(RESTInterface):
         """Return candle data."""
         time_frame = endpoint_kwargs.pop('time_frame')
         section = endpoint_kwargs.pop('section')
-        return self.request('candles/trade:%s:%s/%s' % (time_frame, pair, section),
+        return self.request('candles/trade:%s:%s/%s' % (time_frame, pair,
+                                                        section),
                             params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
@@ -408,7 +434,8 @@ class Bitfinex(RESTInterface):
         """Set a new alert for the given pair."""
         self.is_supported(pair)
         endpoint_kwargs['symbol'] = pair
-        return self.request('auth/w/alert/set', authenticate=True, params=endpoint_kwargs)
+        return self.request('auth/w/alert/set', authenticate=True,
+                            params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     @check_and_format_pair
@@ -416,7 +443,8 @@ class Bitfinex(RESTInterface):
         """Delete an alert for the given pair."""
         self.is_supported(pair)
         price = endpoint_kwargs.pop('price')
-        return self.request('auth/w/alert/price:%s:%s/del' % (pair, price), authenticate=True)
+        return self.request('auth/w/alert/price:%s:%s/del' % (pair, price),
+                            authenticate=True)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     @check_and_format_pair
@@ -424,4 +452,5 @@ class Bitfinex(RESTInterface):
         """Calculate the currently available balance."""
         self.is_supported(pair)
         endpoint_kwargs['symbol'] = pair
-        return self.request('auth/calc/order/avail', authenticate=True, params=endpoint_kwargs)
+        return self.request('auth/calc/order/avail', authenticate=True,
+                            params=endpoint_kwargs)

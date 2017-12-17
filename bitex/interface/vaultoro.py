@@ -24,7 +24,8 @@ class Vaultoro(RESTInterface):
         """Generate a request to the API."""
         verb = 'GET' if not post else 'POST'
         endpoint = '1/' + endpoint if authenticate else endpoint
-        return super(Vaultoro, self).request(verb, endpoint, authenticate, **req_kwargs)
+        return super(Vaultoro, self).request(verb, endpoint, authenticate,
+                                             **req_kwargs)
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""

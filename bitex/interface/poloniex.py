@@ -26,12 +26,13 @@ class Poloniex(RESTInterface):
         else:
             req_kwargs['params'] = {'command': endpoint}
         if authenticate:
-            return super(Poloniex, self).request('POST', endpoint, authenticate,
-                                                 **req_kwargs)
+            return super(Poloniex, self).request('POST', endpoint,
+                                                 authenticate, **req_kwargs)
         return super(Poloniex, self).request('GET', 'public', authenticate,
                                              **req_kwargs)
 
     def _get_supported_pairs(self):
+        """Return a list of supported pairs."""
         return ['BTC_ETH']
 
     # Public Endpoints
@@ -77,13 +78,15 @@ class Poloniex(RESTInterface):
         """Return the order status of the order with given ID."""
         payload = {'orderNumber': order_id}
         payload.update(kwargs)
-        return self.request('returnOrderTrades', authenticate=True, params=payload)
+        return self.request('returnOrderTrades', authenticate=True,
+                            params=payload)
 
     def open_orders(self, *args, **kwargs):
         """Return all open orders."""
         payload = {'currencyPair': 'all'}
         payload.update(kwargs)
-        return self.request('returnOpenOrders', authenticate=True, params=payload)
+        return self.request('returnOpenOrders', authenticate=True,
+                            params=payload)
 
     def cancel_order(self, *order_ids, **kwargs):
         """Cancel order(s) with the given ID(s)."""
@@ -97,4 +100,5 @@ class Poloniex(RESTInterface):
 
     def wallet(self, *args, **kwargs):
         """Return the account's wallet."""
-        return self.request('returnTradableBalances', authenticate=True, params=kwargs)
+        return self.request('returnTradableBalances', authenticate=True,
+                            params=kwargs)

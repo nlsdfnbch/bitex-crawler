@@ -2,9 +2,6 @@
 # Import Built-Ins
 import logging
 
-# Import Third-Party
-import requests
-
 # Import Homebrew
 from bitex.api.REST.ccex import CCEXREST
 from bitex.interface.rest import RESTInterface
@@ -26,13 +23,15 @@ class CCEX(RESTInterface):
         """Generate a request to the API."""
         if authenticate:
             endpoint = endpoint if endpoint else 'api.html'
-            return super(CCEX, self).request('GET', endpoint, authenticate=True, **req_kwargs)
+            return super(CCEX, self).request('GET', endpoint,
+                                             authenticate=True, **req_kwargs)
+
         endpoint = endpoint if endpoint else 'api_pub.html'
         return super(CCEX, self).request('GET', endpoint, **req_kwargs)
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        return requests.get('https://c-cex.com/t/pairs.json').json()['pairs']
+        return self.request('/pairs.json').json()['pairs']
 
     # Public Endpoints
     @check_and_format_pair
@@ -58,14 +57,20 @@ class CCEX(RESTInterface):
     @check_and_format_pair
     def ask(self, pair, price, size, *args, **kwargs):
         """Place an ask order."""
-        payload = {'a': 'selllimit', 'market': pair, 'quantity': size, 'rate': price}
+        payload = {'a': 'selllimit',
+                   'market': pair,
+                   'quantity': size,
+                   'rate': price}
         payload.update(kwargs)
         return self.request(None, authenticate=True, params=payload)
 
     @check_and_format_pair
     def bid(self, pair, price, size, *args, **kwargs):
         """Place a bid order."""
-        payload = {'a': 'buylimit', 'market': pair, 'quantity': size, 'rate': price}
+        payload = {'a': 'buylimit',
+                   'market': pair,
+                   'quantity': size,
+                   'rate': price}
         payload.update(kwargs)
         return self.request(None, authenticate=True, params=payload)
 
@@ -88,7 +93,8 @@ class CCEX(RESTInterface):
         results = []
         for oid in order_ids:
             payload.update({'uuid': oid})
-            results.append(self.request(None, params=payload, authenticate=True))
+            results.append(self.request(None, params=payload,
+                                        authenticate=True))
         return results if len(results) > 1 else results[0]
 
     def wallet(self, *args, currency=None, **kwargs):
