@@ -72,8 +72,8 @@ class Bter(RESTInterface):
     def cancel_order(self, *order_ids, cancel_all=False, **kwargs):
         """Cancel order(s) with the given ID(s)."""
         if cancel_all:
-            return self.request('POST', 'private/cancelAllOrders', params=kwargs,
-                                authenticate=True)
+            return self.request('POST', 'private/cancelAllOrders',
+                                params=kwargs, authenticate=True)
         results = []
         payload = kwargs
         for oid in order_ids:

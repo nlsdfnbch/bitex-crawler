@@ -23,8 +23,10 @@ class QuadrigaCX(RESTInterface):
     def request(self, endpoint, authenticate=False, **req_kwargs):
         """Generate a request to the API."""
         if authenticate:
-            return super(QuadrigaCX, self).request('POST', endpoint, authenticate, **req_kwargs)
-        return super(QuadrigaCX, self).request('GET', endpoint, authenticate, **req_kwargs)
+            return super(QuadrigaCX, self).request('POST', endpoint,
+                                                   authenticate, **req_kwargs)
+        return super(QuadrigaCX, self).request('GET', endpoint, authenticate,
+                                               **req_kwargs)
 
     def _get_supported_pairs(self):
         return ['btc_cad', 'btc_usd', 'eth_btc', 'eth_cad']

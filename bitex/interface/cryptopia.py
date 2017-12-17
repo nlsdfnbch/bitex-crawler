@@ -16,7 +16,8 @@ class Cryptopia(RESTInterface):
 
     def __init__(self, **api_kwargs):
         """Initialize Interface class instance."""
-        super(Cryptopia, self).__init__('Cryptopia', CryptopiaREST(**api_kwargs))
+        super(Cryptopia, self).__init__('Cryptopia',
+                                        CryptopiaREST(**api_kwargs))
 
     def _get_supported_pairs(self):
         r = self.request('GET', 'GetTradePairs').json()

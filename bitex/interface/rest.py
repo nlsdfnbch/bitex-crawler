@@ -28,7 +28,8 @@ class RESTInterface(Interface):
 
         :param pair: Str, pair to request data for.
         :param args: additional arguments.
-        :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
+        :param kwargs: additional kwargs, passed to requests.Requests() as
+                       'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
         raise NotImplementedError
@@ -41,7 +42,8 @@ class RESTInterface(Interface):
 
         :param pair: Str, pair to request data for.
         :param args: additional arguments.
-        :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
+        :param kwargs: additional kwargs, passed to requests.Requests() as
+                       'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
         raise NotImplementedError
@@ -53,7 +55,8 @@ class RESTInterface(Interface):
 
         :param pair: Str, pair to request data for.
         :param args: additional arguments.
-        :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
+        :param kwargs: additional kwargs, passed to requests.Requests() as
+                       'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
         raise NotImplementedError
@@ -69,7 +72,8 @@ class RESTInterface(Interface):
         :param price: Float or str, price you'd like to ask.
         :param size: Float or str, amount of currency you'd like to sell.
         :param args: additional arguments.
-        :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
+        :param kwargs: additional kwargs, passed to requests.Requests() as
+                       'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
         raise NotImplementedError
@@ -84,7 +88,8 @@ class RESTInterface(Interface):
         :param price: Float or str, price you'd like to bid.
         :param size: Float or str, amount of currency you'd like to buy.
         :param args: additional arguments.
-        :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
+        :param kwargs: additional kwargs, passed to requests.Requests() as
+                       'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
         raise NotImplementedError
@@ -96,7 +101,8 @@ class RESTInterface(Interface):
 
         :param order_id: Order ID of the order you'd like to have a status for.
         :param args: additional arguments.
-        :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
+        :param kwargs: additional kwargs, passed to requests.Requests() as
+                       'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
         raise NotImplementedError
@@ -107,7 +113,8 @@ class RESTInterface(Interface):
         Return all open orders.
 
         :param args: additional arguments.
-        :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
+        :param kwargs: additional kwargs, passed to requests.Requests() as
+                       'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
         raise NotImplementedError
@@ -118,7 +125,8 @@ class RESTInterface(Interface):
         Cancel the order(s) with the given id(s).
 
         :param order_ids: variable amount of order IDs to cancel.
-        :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
+        :param kwargs: additional kwargs, passed to requests.Requests() as
+                       'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
         raise NotImplementedError
@@ -129,7 +137,8 @@ class RESTInterface(Interface):
         Return the wallet of this account.
 
         :param args: additional arguments.
-        :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
+        :param kwargs: additional kwargs, passed to requests.Requests() as
+                       'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
         raise NotImplementedError

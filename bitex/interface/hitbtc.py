@@ -85,8 +85,8 @@ class HitBTC(RESTInterface):
     def cancel_order(self, *order_ids, cancel_all=False, **kwargs):
         """Cancel order(s) with the given ID(s)."""
         if cancel_all:
-            return self.request('cancel_orders', authenticate=True, verb='POST',
-                                params=kwargs)
+            return self.request('cancel_orders', authenticate=True,
+                                verb='POST', params=kwargs)
         results = []
         payload = kwargs
         for oid in order_ids:

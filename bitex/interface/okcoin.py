@@ -22,8 +22,10 @@ class OKCoin(RESTInterface):
     def request(self, endpoint, authenticate=False, **req_kwargs):
         """Generate a request to the API."""
         if authenticate:
-            return super(OKCoin, self).request('POST', endpoint, authenticate, **req_kwargs)
-        return super(OKCoin, self).request('GET', endpoint, authenticate, **req_kwargs)
+            return super(OKCoin, self).request('POST', endpoint, authenticate,
+                                               **req_kwargs)
+        return super(OKCoin, self).request('GET', endpoint, authenticate,
+                                           **req_kwargs)
 
     def _get_supported_pairs(self):
         return ['btc_usd', 'ltc_usd', 'eth_usd',
@@ -54,7 +56,8 @@ class OKCoin(RESTInterface):
     # Private Endpoints
     def _place_order(self, pair, price, size, side, **kwargs):
         """Place an order with the given parameters."""
-        payload = {'symbol': pair, 'type': side, 'price': price, 'amount': size}
+        payload = {'symbol': pair, 'type': side,
+                   'price': price, 'amount': size}
         payload.update(kwargs)
         return self.request('trade.do', authenticate=True, params=payload)
 
@@ -82,7 +85,8 @@ class OKCoin(RESTInterface):
         """Cancel order(s) with the given ID(s)."""
         payload = kwargs
         payload.update({'order_id': ','.join(list(order_ids))})
-        return self.request('cancel_order.do', authenticate=True, params=payload)
+        return self.request('cancel_order.do', authenticate=True,
+                            params=payload)
 
     def wallet(self, *args, **kwargs):
         """Return the account's wallet."""

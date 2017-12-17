@@ -57,8 +57,8 @@ class Interface(metaclass=abc.ABCMeta):
         Check if the given pair is present in self._supported_pairs.
 
         Input can either be a string or a PairFormatter Obj (or child thereof).
-        If it is the latter two, we'll call the format() method with the Interface's
-        name attribute to acquire proper formatting.
+        If it is the latter two, we'll call the format() method with the
+        Interface's name attribute to acquire proper formatting.
 
         :param pair: Str, or bitex.pairs.PairFormatter Object
         :return: Bool
@@ -77,9 +77,10 @@ class Interface(metaclass=abc.ABCMeta):
 
         :param verb: HTTP verb (GET, PUT, DELETE, etc)
         :param endpoint: Str
-        :param authenticate: Bool, whether to call private_query or public_query
-                             method.
-        :param req_kwargs: Kwargs to pass to _query / :class:`requests.Request()`
+        :param authenticate: Bool, whether to call private_query or
+                             public_query method.
+        :param req_kwargs: Kwargs to pass to
+                           _query / :class:`requests.Request()`
         :raise: UnsupportedPairError
         :return: :class:`requests.Response() Obj`
         """
