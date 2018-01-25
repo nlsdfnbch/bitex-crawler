@@ -12,7 +12,6 @@ import base64
 # Import Homebrew
 from bitex.api.REST.api import APIClient
 
-
 log = logging.getLogger(__name__)
 
 
@@ -31,7 +30,11 @@ class BitfinexREST(APIClient):
         if self.version == 'v1':
             req['request'] = endpoint_path
             req['nonce'] = self.nonce()
-
+            try:
+                symbol = kwargs['symbol']
+                req['symbol'] = symbol
+            except Exception as e:
+                print()
             js = json.dumps(req)
             data = base64.standard_b64encode(js.encode('utf8'))
         else:
@@ -45,4 +48,3 @@ class BitfinexREST(APIClient):
             headers['content-type'] = 'application/json'
 
         return url, {'headers': headers}
-
