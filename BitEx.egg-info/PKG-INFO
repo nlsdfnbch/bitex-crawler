@@ -1,0 +1,13 @@
+Metadata-Version: 1.1
+Name: BitEx
+Version: 1.2.12
+Summary: Python3-based API Framework for Crypto Exchanges
+Home-page: https://github.com/nlsdfnbch/bitex.git
+Author: Nils Diefenbach
+Author-email: 23okrs20+pypi@mykolab.com
+License: MIT
+Description-Content-Type: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers

@@ -36,8 +36,8 @@ class BitfinexREST(APIClient):
                 req['symbol'] = symbol
             except Exception as e:
                 try:
-                    currency = kwargs['currency']
-                    req['currency'] = currency
+                    symbol = kwargs['currency']
+                    req['currency'] = symbol
                 except Exception as e:
                     print()
             js = json.dumps(req)
@@ -53,5 +53,6 @@ class BitfinexREST(APIClient):
             headers = {'bfx-nonce': self.nonce(),
                        'bfx-apikey': self.key,
                        'bfx-signature': signature,
+                       'btx-payload': data,
                        'content-type': 'application/json'}
         return url, {'headers': headers}
