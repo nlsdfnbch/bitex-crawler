@@ -81,7 +81,7 @@ class Bitfinex(RESTInterface):
         self.is_supported(pair)
         if self.REST.version == 'v1':
             return self.request('pubticker/%s' % pair)
-        return self.request('ticker/%s' % pair, params=endpoint_kwargs)
+        return self.request('ticker/t%s' % pair.upper(), params=endpoint_kwargs)
 
     @check_and_format_pair
     @format_with(BitfinexFormattedResponse)
@@ -90,7 +90,7 @@ class Bitfinex(RESTInterface):
         self.is_supported(pair)
         if self.REST.version == 'v1':
             return self.request('trades/%s' % pair, params=endpoint_kwargs)
-        return self.request('trades/%s/hist' % pair, params=endpoint_kwargs)
+        return self.request('trades/t%s/hist' % pair.upper(), params=endpoint_kwargs)
 
     @check_and_format_pair
     @format_with(BitfinexFormattedResponse)
@@ -395,7 +395,7 @@ class Bitfinex(RESTInterface):
     @check_and_format_pair
     def order_trades(self, pair, order_id, **endpoint_kwargs):
         """Return trades of the account."""
-        return self.request('auth/r/order/%s:%s/trades' % (pair, order_id),
+        return self.request('auth/r/order/t%s:%s/trades' % (pair.upper(), order_id),
                             authenticate=True, params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
@@ -419,7 +419,7 @@ class Bitfinex(RESTInterface):
     def alert_set(self, pair, **endpoint_kwargs):
         """Set a new alert for the given pair."""
         self.is_supported(pair)
-        endpoint_kwargs['symbol'] = pair
+        endpoint_kwargs['symbol'] = 't' + pair.upper()
         return self.request('auth/w/alert/set', authenticate=True, params=endpoint_kwargs)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
@@ -428,12 +428,12 @@ class Bitfinex(RESTInterface):
         """Delete an alert for the given pair."""
         self.is_supported(pair)
         price = endpoint_kwargs.pop('price')
-        return self.request('auth/w/alert/price:%s:%s/del' % (pair, price), authenticate=True)
+        return self.request('auth/w/alert/price:t%s:%s/del' % (pair.upper(), price), authenticate=True)
 
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     @check_and_format_pair
     def calc_available_balance(self, pair, **endpoint_kwargs):
         """Calculate the currently available balance."""
         self.is_supported(pair)
-        endpoint_kwargs['symbol'] = pair
+        endpoint_kwargs['symbol'] = 't' + pair.upper()
         return self.request('auth/calc/order/avail', authenticate=True, params=endpoint_kwargs)
