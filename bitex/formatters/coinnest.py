@@ -16,31 +16,33 @@ class CoinnestFormattedResponse(APIResponse):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
 
-        bid = float(data["buy"])
-        ask = float(data["sell"])
-        high = float(data["high"])
-        low = float(data["low"])
-        last = float(data["last"])
-        volume = float(data["vol"])
-        timestamp = datetime.utcfromtimestamp(float(data["time"]))
+        bid = data["buy"]
+        ask = data["sell"]
+        high = data["high"]
+        low = data["low"]
+        last = data["last"]
+        volume = data["vol"]
+        timestamp = datetime.utcfromtimestamp(int(data["time"]))
         return super(CoinnestFormattedResponse, self).ticker(bid, ask, high, low, last, volume,
                                                              timestamp)
 
     def order_book(self):
         """Return namedtuple with given data."""
         data = self.json()
-        asks = []
-        bids = []
-        for i in data['asks']:
-            asks.append([float(i[0]), float(i[1])])
-        for i in data['bids']:
-            bids.append([float(i[0]), float(i[1])])
-        timestamp = datetime.utcnow()
-        return super(CoinnestFormattedResponse, self).order_book(bids, asks, timestamp)
+        return super(CoinnestFormattedResponse, self).order_book(data['bids'], data['asks'],
+                                                                 datetime.utcnow())
 
     def trades(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()
+        tradelst = []
+        for trade in data:
+            tradelst.append({'id': trade['tid'], 'price': trade['price'], 'qty': trade['amount'],
+                             'time': trade['date'],
+                             'isBuyerMaker': trade['type'] == 'buy', 'isBestMatch': None})
+            # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
+            # raise NotImplementedError
+        return super(CoinnestFormattedResponse, self).trades(tradelst, datetime.utcnow())
 
     def bid(self):
         """Return namedtuple with given data."""
@@ -69,5 +71,5 @@ class CoinnestFormattedResponse(APIResponse):
         for i in data:
             if i[-8:] == '_balance':
                 if (i[:-8] == 'btc') | (i[:-8] == 'krw') | (float(data[i]) > 0):
-                    balances[i[:-8].upper()] = float(data[i])
+                    balances[i[:-8].upper()] = data[i]
         return super(CoinnestFormattedResponse, self).wallet(balances, self.received_at)

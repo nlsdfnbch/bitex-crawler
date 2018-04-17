@@ -29,18 +29,22 @@ class GateioFormattedResponse(APIResponse):
     def order_book(self):
         """Return namedtuple with given data."""
         data = self.json()
-        asks = []
-        bids = []
-        for i in data['asks'][::-1]:
-            asks.append([float(i[0]), float(i[1])])
-        for i in data['bids']:
-            bids.append([float(i[0]), float(i[1])])
         timestamp = datetime.utcnow()
-        return super(GateioFormattedResponse, self).order_book(bids, asks, timestamp)
+        return super(GateioFormattedResponse, self).order_book(data['bids'], data['asks'][::-1],
+                                                               timestamp)
 
     def trades(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()['data']
+        tradelst = []
+        timestamp = datetime.utcnow()
+        for trade in data:
+            tradelst.append({'id': trade['tradeID'], 'price': trade['rate'], 'qty': trade['amount'],
+                             'time': float(trade['timestamp'])*1000,
+                             'isBuyerMaker': trade['type'] == 'buy', 'isBestMatch': None})
+            # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
+            # raise NotImplementedError
+        return super(GateioFormattedResponse, self).trades(tradelst, timestamp)
 
     def bid(self):
         """Return namedtuple with given data."""
@@ -68,5 +72,5 @@ class GateioFormattedResponse(APIResponse):
         balances = {}
         for i in data:
             if (i == 'BTC') | (i == 'USD') | (float(data[i]) > 0):
-                balances[i] = float(data[i])
+                balances[i] = data[i]
         return super(GateioFormattedResponse, self).wallet(balances, self.received_at)

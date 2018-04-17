@@ -111,6 +111,7 @@ def timetrans(atime, tgttype):
         if atime == 'now':
             dtdt = datetime.utcnow()
         elif '.' in atime:
+            atime = atime.replace('Z', '')
             if 'T' in atime:
                 dtdt = datetime.strptime(atime, '%Y-%m-%dT%H:%M:%S.%f')
             else:

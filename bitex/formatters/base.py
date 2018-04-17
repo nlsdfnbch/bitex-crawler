@@ -32,7 +32,12 @@ class APIResponse(requests.Response, metaclass=ABCMeta):
         """Wrap around response's json method to avoid None value in returned data."""
         default_kwargs = {'parse_int': str, 'parse_float': str}
         default_kwargs.update(**kwargs)
-        return self.response.json(**default_kwargs)
+        try:
+            ret = self.response.json(**default_kwargs)
+        except Exception:
+            # I'm not sure if I should raise Exception here. Ajeep8
+            raise self.response.raise_for_status()
+        return ret
 
     def __getattr__(self, attr):
         """Use methods of the encapsulated object, otherwise use what's available in the wrapper."""

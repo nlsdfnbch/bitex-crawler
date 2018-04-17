@@ -28,12 +28,8 @@ class BinanceFormattedResponse(APIResponse):
     def order_book(self):
         """Return namedtuple with given data."""
         data = self.json()
-        asks = []
-        bids = []
-        for i in data['asks']:
-            asks.append([float(i[0]), float(i[1])])
-        for i in data['bids']:
-            bids.append([float(i[0]), float(i[1])])
+        bids = data['bids']
+        asks = data['asks']
         timestamp = datetime.utcnow()
         return super(BinanceFormattedResponse, self).order_book(bids, asks, timestamp)
 
@@ -71,7 +67,7 @@ class BinanceFormattedResponse(APIResponse):
         # nametuple can not first is number, and can not more then 255
         balances = {}
         for i in data:
-            available = float(i['free'])
-            if available > 0:
+            available = i['free']
+            if float(available) > 0:
                 balances[i['asset']] = available
         return super(BinanceFormattedResponse, self).wallet(balances, self.received_at)

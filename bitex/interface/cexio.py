@@ -56,7 +56,7 @@ class CEXio(RESTInterface):
     @format_with(CEXioFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return the trades for the given pair."""
-        raise NotImplementedError
+        return self.request('trade_history/%s/%s' % (pair[:-3], pair[-3:]))
 
     # Private Endpoints
     @check_and_format_pair

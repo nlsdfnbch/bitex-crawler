@@ -67,7 +67,7 @@ class Gateio(RESTInterface):
     @format_with(GateioFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return trades for the given pair."""
-        raise NotImplementedError
+        return self.request('api.gateio.io/api2/1/tradeHistory/%s' % pair, params=kwargs)
 
     # Private Endpoints
     @check_and_format_pair

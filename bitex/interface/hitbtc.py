@@ -59,9 +59,12 @@ class HitBTC(RESTInterface):
     @format_with(HitBTCFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return the trades for the given pair."""
-        if 'from' not in kwargs:
-            return self.request('%s/trades/recent' % pair, params=kwargs)
-        return self.request('%s/trades', params=kwargs)
+        if self.REST.version == '1':
+            if 'from' not in kwargs:
+                return self.request('%s/trades/recent' % pair, params=kwargs)
+            return self.request('%s/trades', params=kwargs)
+        else:
+            return self.request('trades/%s' % pair, params=kwargs)
 
     # Private Endpoints
     # pylint: disable=unused-argument

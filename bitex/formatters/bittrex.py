@@ -41,9 +41,9 @@ class BittrexFormattedResponse(APIResponse):
         asks = []
         bids = []
         for i in data['sell']:
-            asks.append([float(i['Rate']), float(i['Quantity'])])
+            asks.append([i['Rate'], i['Quantity']])
         for i in data['buy']:
-            bids.append([float(i['Rate']), float(i['Quantity'])])
+            bids.append([i['Rate'], i['Quantity']])
 
         return super(BittrexFormattedResponse, self).order_book(bids, asks, datetime.utcnow())
 
@@ -85,6 +85,6 @@ class BittrexFormattedResponse(APIResponse):
         data = self.json(parse_int=str, parse_float=str)['result']
         balances = {}
         for i in data:
-            balances[i['Currency']] = float(i['Available'])
+            balances[i['Currency']] = i['Available']
 
         return super(BittrexFormattedResponse, self).wallet(balances, self.received_at)

@@ -14,8 +14,8 @@ class CoinoneFormattedResponse(APIResponse):
         """Return namedtuple with given data."""
         data = self.json(parse_int=str, parse_float=str)
 
-        bid = 0
-        ask = 0
+        bid = None
+        ask = None
         high = data["high"]
         low = data["low"]
         last = data["last"]
@@ -31,14 +31,22 @@ class CoinoneFormattedResponse(APIResponse):
         asks = []
         bids = []
         for i in data['ask']:
-            asks.append([float(i['price']), float(i['qty'])])
+            asks.append([i['price'], i['qty']])
         for i in data['bid']:
-            bids.append([float(i['price']), float(i['qty'])])
+            bids.append([i['price'], i['qty']])
         return super(CoinoneFormattedResponse, self).order_book(bids, asks, int(data['timestamp']))
 
     def trades(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()['completeOrders']
+        tradelst = []
+        for trade in data:
+            tradelst.append({'id': trade['timestamp'], 'price': trade['price'],
+                             'qty': trade['qty'], 'time': trade['timestamp'],
+                             'isBuyerMaker': None, 'isBestMatch': None})
+            # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
+            # raise NotImplementedError
+        return super(CoinoneFormattedResponse, self).trades(tradelst, datetime.utcnow())
 
     def bid(self):
         """Return namedtuple with given data."""
@@ -68,7 +76,7 @@ class CoinoneFormattedResponse(APIResponse):
         data.pop('normalWallets')
         balances = {}
         for i in data:
-            available = float(data[i]['avail'])
-            if available > 0:
+            available = data[i]['avail']
+            if float(available) > 0:
                 balances[i.upper()] = available
         return super(CoinoneFormattedResponse, self).wallet(balances, self.received_at)

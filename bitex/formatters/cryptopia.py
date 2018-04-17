@@ -31,20 +31,26 @@ class CryptopiaFormattedResponse(APIResponse):
     def order_book(self):
         """Return namedtuple with given data."""
         data = self.json()['Data']
-        for i in data:
-            print(i)
         asks = []
         bids = []
         for i in data['Sell']:
-            asks.append([float(i['Price']), float(i['Volume'])])
+            asks.append([i['Price'], i['Volume']])
         for i in data['Buy']:
-            bids.append([float(i['Price']), float(i['Volume'])])
+            bids.append([i['Price'], i['Volume']])
 
         return super(CryptopiaFormattedResponse, self).order_book(bids, asks, datetime.utcnow())
 
     def trades(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()['Data']
+        tradelst = []
+        for trade in data:
+            tradelst.append({'id': trade['Timestamp'], 'price': trade['Price'],
+                             'qty': trade['Amount'], 'time': trade['Timestamp'],
+                             'isBuyerMaker': trade['Type'] == 'Buy', 'isBestMatch': None})
+            # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
+            # raise NotImplementedError
+        return super(CryptopiaFormattedResponse, self).trades(tradelst, datetime.utcnow())
 
     def bid(self):
         """Return namedtuple with given data."""
@@ -73,5 +79,5 @@ class CryptopiaFormattedResponse(APIResponse):
         balances = {}
         for i in data:
             if (i['Symbol'] == 'BTC') or (float(i['Available']) > 0):
-                balances[i['Symbol']] = float(i['Available'])
+                balances[i['Symbol']] = i['Available']
         return super(CryptopiaFormattedResponse, self).wallet(balances, self.received_at)

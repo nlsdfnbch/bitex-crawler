@@ -4,6 +4,7 @@ from datetime import datetime
 
 # Import Home-brewed
 from bitex.formatters.base import APIResponse
+from bitex.utils import timetrans
 
 
 class HitBTCFormattedResponse(APIResponse):
@@ -37,16 +38,25 @@ class HitBTCFormattedResponse(APIResponse):
             asks = []
             bids = []
             for i in data['ask']:
-                asks.append([float(i['price']), float(i['size'])])
+                asks.append([i['price'], i['size']])
             for i in data['bid']:
-                bids.append([float(i['price']), float(i['size'])])
+                bids.append([i['price'], i['size']])
 
         timestamp = datetime.utcnow()
         return super(HitBTCFormattedResponse, self).order_book(bids, asks, timestamp)
 
     def trades(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()
+        tradelst = []
+        timestamp = datetime.utcnow()
+        for trade in data:
+            tradelst.append({'id': trade['id'], 'price': trade['price'], 'qty': trade['quantity'],
+                             'time': timetrans(trade['timestamp'], 'timestamp')*1000,
+                             'isBuyerMaker': trade['side'] == 'buy', 'isBestMatch': None})
+            # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
+            # raise NotImplementedError
+        return super(HitBTCFormattedResponse, self).trades(tradelst, timestamp)
 
     def bid(self):
         """Return namedtuple with given data."""
@@ -73,7 +83,7 @@ class HitBTCFormattedResponse(APIResponse):
         data = self.json(parse_int=str, parse_float=str)
         balances = {}
         for i in data:
-            available = float(i['available'])
-            if (available > 0) | (i['currency'] == 'BTC'):
+            available = i['available']
+            if (float(available) > 0) | (i['currency'] == 'BTC'):
                 balances[i['currency']] = available
         return super(HitBTCFormattedResponse, self).wallet(balances, self.received_at)

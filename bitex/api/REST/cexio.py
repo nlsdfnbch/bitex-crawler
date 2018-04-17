@@ -18,7 +18,7 @@ log = logging.getLogger(__name__)
 
 
 class CEXioREST(RESTAPI):
-    """BitHumb REST API class."""
+    """CEX.IO REST API class."""
 
     def __init__(self, addr=None, user_id=None, key=None, secret=None, version=None, config=None,
                  timeout=None, proxies=None):

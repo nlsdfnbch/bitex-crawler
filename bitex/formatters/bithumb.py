@@ -6,6 +6,7 @@ from datetime import datetime
 
 # Import Home-brewed
 from bitex.formatters.base import APIResponse
+from bitex.utils import timetrans
 
 
 class BithumbFormattedResponse(APIResponse):
@@ -35,14 +36,23 @@ class BithumbFormattedResponse(APIResponse):
         asks = []
         bids = []
         for i in data['asks']:
-            asks.append([float(i['price']), float(i['quantity'])])
+            asks.append([i['price'], i['quantity']])
         for i in data['bids']:
-            bids.append([float(i['price']), float(i['quantity'])])
-        return super(BithumbFormattedResponse, self).order_book(bids, asks, int(data['timestamp']))
+            bids.append([i['price'], i['quantity']])
+        return super(BithumbFormattedResponse, self).order_book(bids, asks, data['timestamp'])
 
     def trades(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()['data']
+        tradelst = []
+        for trade in data:
+            tradelst.append({'id': trade['cont_no'], 'price': trade['price'],
+                             'qty': trade['units_traded'],
+                             'time': timetrans(trade['transaction_date'], 'timestamp'),
+                             'isBuyerMaker': trade['type'] == 'bid', 'isBestMatch': None})
+            # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
+            # raise NotImplementedError
+        return super(BithumbFormattedResponse, self).trades(tradelst, datetime.utcnow())
 
     def bid(self):
         """Return namedtuple with given data."""
@@ -70,7 +80,7 @@ class BithumbFormattedResponse(APIResponse):
         balances = {}
         for i in data:
             if i[:5] == 'avail':
-                available = float(data[i])
-                if available > 0:
+                available = data[i]
+                if float(available) > 0:
                     balances[i.split('_')[1].upper()] = available
         return super(BithumbFormattedResponse, self).wallet(balances, self.received_at)

@@ -39,7 +39,16 @@ class KrakenFormattedResponse(APIResponse):
 
     def trades(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        pair = self.method_args[1]
+        data = self.json()['result'][pair]
+        tradelst = []
+        for trade in data:
+            tradelst.append({'id': trade[2].replace('.', ''), 'price': trade[0],
+                             'qty': trade[1], 'time': trade[2],
+                             'isBuyerMaker': trade[3] != 's', 'isBestMatch': None})
+            # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
+            # raise NotImplementedError
+        return super(KrakenFormattedResponse, self).trades(tradelst, datetime.utcnow())
 
     def bid(self):
         """Return namedtuple with given data."""

@@ -27,17 +27,21 @@ class CEXioFormattedResponse(APIResponse):
     def order_book(self):
         """Return namedtuple with given data."""
         data = self.json()
-        asks = []
-        bids = []
-        for i in data['asks']:
-            asks.append([float(i[0]), float(i[1])])
-        for i in data['bids']:
-            bids.append([float(i[0]), float(i[1])])
-        return super(CEXioFormattedResponse, self).order_book(bids, asks, int(data['timestamp']))
+        return super(CEXioFormattedResponse, self).order_book(data['bids'], data['asks'],
+                                                              int(data['timestamp']))
 
     def trades(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        data = self.json()
+        tradelst = []
+        timestamp = datetime.utcnow()
+        for trade in data:
+            tradelst.append({'id': trade['tid'], 'price': trade['price'],
+                             'qty': trade['amount'], 'time': int(trade['date'])*1000,
+                             'isBuyerMaker': trade['type'] == 'buy', 'isBestMatch': None})
+            # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
+            # raise NotImplementedError
+        return super(CEXioFormattedResponse, self).trades(tradelst, timestamp)
 
     def bid(self):
         """Return namedtuple with given data."""
@@ -66,7 +70,7 @@ class CEXioFormattedResponse(APIResponse):
         data.pop('username')
         balances = {}
         for i in data:
-            available = float(data[i]['available'])
-            if available > 0:
+            available = data[i]['available']
+            if float(available) > 0:
                 balances[i] = available
         return super(CEXioFormattedResponse, self).wallet(balances, self.received_at)

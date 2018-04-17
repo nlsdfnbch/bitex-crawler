@@ -21,7 +21,7 @@ log = logging.getLogger(__name__)
 
 
 class BinanceREST(RESTAPI):
-    """Bitfinex REST API class."""
+    """Binance REST API class."""
 
     def __init__(self, key=None, secret=None, version=None, addr=None, timeout=None, config=None,
                  user_id=None, proxies=None):
@@ -70,6 +70,7 @@ class BinanceREST(RESTAPI):
         else:
             req_kwargs['data'] = req_string
 
-        req_kwargs['headers'] = {'X-MBX-APIKEY': self.key.encode('utf-8')}
+        req_kwargs['headers'] = {'X-MBX-APIKEY': self.key}
+        # req_kwargs['headers'] = {'X-MBX-APIKEY': self.key.encode('utf-8')}
 
         return req_kwargs

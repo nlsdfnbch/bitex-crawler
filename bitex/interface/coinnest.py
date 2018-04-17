@@ -67,7 +67,7 @@ class Coinnest(RESTInterface):
     @format_with(CoinnestFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return the trades for a given pair."""
-        raise NotImplementedError
+        return self.request('/api/pub/trades', params=kwargs)
 
     # Private Endpoints
     @check_and_format_pair

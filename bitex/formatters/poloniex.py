@@ -36,14 +36,7 @@ class PoloniexFormattedResponse(APIResponse):
     def order_book(self):
         """Return namedtuple with given data."""
         data = self.json()
-        asks = []
-        bids = []
-        for i in data['asks']:
-            asks.append([float(i[0]), float(i[1])])
-        for i in data['bids']:
-            bids.append([float(i[0]), float(i[1])])
-
-        return super(PoloniexFormattedResponse, self).order_book(bids, asks,
+        return super(PoloniexFormattedResponse, self).order_book(data['bids'], data['asks'],
                                                                  timetrans('now', 'timestamp'))
 
     def trades(self):

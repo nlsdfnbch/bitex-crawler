@@ -34,15 +34,15 @@ class BitfinexFormattedResponse(APIResponse):
         bids = []
         if 'bids' in data:  # api version 1
             for i in data['asks']:
-                asks.append([float(i['price']), float(i['amount'])])
+                asks.append([i['price'], i['amount']])
             for i in data['bids']:
-                bids.append([float(i['price']), float(i['amount'])])
+                bids.append([i['price'], i['amount']])
         else:   # api version 2
             for i in data:
-                if float(i[2]) > 0:
-                    bids.append([float(i[0]), float(i[2])])
+                if i[2][1] == '-':
+                    bids.append([i[0], i[2]])
                 else:
-                    asks.append([float(i[0]), -float(i[2])])
+                    asks.append([i[0], i[2][1:]])
         timestamp = datetime.utcnow()
         return super(BitfinexFormattedResponse, self).order_book(bids, asks, timestamp)
 

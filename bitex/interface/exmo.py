@@ -56,7 +56,7 @@ class Exmo(RESTInterface):
     @format_with(ExmoFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return trades for the given pair."""
-        raise NotImplementedError
+        return self.request('v1/trades/?pair=%s' % pair, params=kwargs)
 
     # Private Endpoints
     @check_and_format_pair

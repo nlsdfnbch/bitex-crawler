@@ -29,14 +29,8 @@ class OKexFormattedResponse(APIResponse):
     def order_book(self):
         """Return namedtuple with given data."""
         data = self.json()
-        asks = []
-        bids = []
-        for i in data['asks'][::-1]:
-            asks.append([float(i[0]), float(i[1])])
-        for i in data['bids']:
-            bids.append([float(i[0]), float(i[1])])
-
-        return super(OKexFormattedResponse, self).order_book(bids, asks, datetime.utcnow())
+        return super(OKexFormattedResponse, self).order_book(data['bids'], data['asks'][::-1],
+                                                             datetime.utcnow())
 
     def trades(self):
         """Return namedtuple with given data."""

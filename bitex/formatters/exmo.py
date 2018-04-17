@@ -31,18 +31,22 @@ class ExmoFormattedResponse(APIResponse):
         """Return namedtuple with given data."""
         pair = self.method_args[1]
         data = self.json()[pair]
-        asks = []
-        bids = []
-        for i in data['ask']:
-            asks.append([float(i[0]), float(i[1])])
-        for i in data['bid']:
-            bids.append([float(i[0]), float(i[1])])
         timestamp = datetime.utcnow()
-        return super(ExmoFormattedResponse, self).order_book(bids, asks, timestamp)
+        return super(ExmoFormattedResponse, self).order_book(data['bid'], data['ask'], timestamp)
 
     def trades(self):
         """Return namedtuple with given data."""
-        raise NotImplementedError
+        pair = self.method_args[1]
+        data = self.json()[pair]
+        tradelst = []
+        timestamp = datetime.utcnow()
+        for trade in data:
+            tradelst.append({'id': trade['trade_id'], 'price': trade['price'],
+                             'qty': trade['quantity'], 'time': int(trade['date'])*1000,
+                             'isBuyerMaker': trade['type'] == 'buy', 'isBestMatch': None})
+            # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
+            # raise NotImplementedError
+        return super(ExmoFormattedResponse, self).trades(tradelst, timestamp)
 
     def bid(self):
         """Return namedtuple with given data."""
@@ -70,5 +74,5 @@ class ExmoFormattedResponse(APIResponse):
         balances = {}
         for i in data:
             if (i == 'BTC') | (i == 'USD') | (float(data[i]) > 0):
-                balances[i] = float(data[i])
+                balances[i] = data[i]
         return super(ExmoFormattedResponse, self).wallet(balances, self.received_at)

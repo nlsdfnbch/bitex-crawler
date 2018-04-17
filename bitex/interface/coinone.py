@@ -61,7 +61,7 @@ class Coinone(RESTInterface):
     @format_with(CoinoneFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return the trades for the given pair."""
-        raise NotImplementedError
+        return self.request('trades')
 
     # Private Endpoints
     @check_and_format_pair

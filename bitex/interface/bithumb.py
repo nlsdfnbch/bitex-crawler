@@ -58,7 +58,7 @@ class Bithumb(RESTInterface):
     @format_with(BithumbFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return the trades for the given pair."""
-        raise NotImplementedError
+        return self.request('public/recent_transactions/%s' % pair)
 
     # Private Endpoints
     @check_and_format_pair

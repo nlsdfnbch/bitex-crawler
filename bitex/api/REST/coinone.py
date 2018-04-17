@@ -20,7 +20,7 @@ log = logging.getLogger(__name__)
 
 
 class CoinoneREST(RESTAPI):
-    """BitHumb REST API class."""
+    """Coinone REST API class."""
 
     def __init__(self, addr=None, key=None, secret=None, version=None, config=None, timeout=None,
                  user_id=None, proxies=None):
