@@ -17,8 +17,6 @@ class PairTests(unittest.TestCase):
         self.assertEqual(pair.format_for('Kraken'), 'XXBTZUSD')
         self.assertEqual(pair.format_for('Bitstamp'), 'btcusd')
         self.assertEqual(pair.format_for('Bitfinex'), 'BTCUSD')
-        self.assertEqual(pair.format_for('Binance'), 'BTCUSDT')
-        self.assertEqual(pair.format_for('Bittrex'), 'USDT-BTC')
         self.assertEqual(pair.format_for('CoinCheck'), 'btc_usd')
         self.assertEqual(pair.format_for('GDAX'), 'BTC-USD')
         self.assertEqual(pair.format_for('ITBit'), 'XBTUSD')
@@ -28,7 +26,6 @@ class PairTests(unittest.TestCase):
         self.assertEqual(pair.format_for('Gemini'), 'btcusd')
         self.assertEqual(pair.format_for('Yunbi'), 'btcusd')
         self.assertEqual(pair.format_for('The Rock Trading Ltd.'), 'BTCUSD')
-        self.assertEqual(pair.format_for('Poloniex'), 'USDT_BTC')
         self.assertEqual(pair.format_for('Quoine'), 'BTCUSD')
         self.assertEqual(pair.format_for('QuadrigaCX'), 'btc_usd')
         self.assertEqual(pair.format_for('HitBTC'), 'BTCUSD')
@@ -36,13 +33,18 @@ class PairTests(unittest.TestCase):
         self.assertEqual(pair.format_for('Bter'), 'btc_usd')
         self.assertEqual(pair.format_for('CEXio'), 'BTCUSD')
         self.assertEqual(pair.format_for('Exmo'), 'BTC_USD')
-        self.assertEqual(pair.format_for('Gateio'), 'btc_usdt')
         self.assertEqual(pair.format_for('Bithumb'), 'BTC')	# only fiat is KRW
         self.assertEqual(pair.format_for('Coinone'), 'btc')	# only fiat is KRW
         self.assertEqual(pair.format_for('Coinnest'), 'btc')	# only fiat is KRW
 
         # Assert that calling the formatter returns the standard presentation
         self.assertEqual(str(pair), 'BTCUSD')
+
+        pair = PairFormatter('BTC', 'USDT')
+        self.assertEqual(pair.format_for('Binance'), 'BTCUSDT')  # Binance had no BTCUSD, but do not trans BTCUSD to BTCUSDT
+        self.assertEqual(pair.format_for('Bittrex'), 'USDT-BTC')
+        self.assertEqual(pair.format_for('Poloniex'), 'USDT_BTC')
+        self.assertEqual(pair.format_for('Gateio'), 'btc_usdt')
 
     def test_poloniex_formatter_edge_case(self):
         # Assert that BTC in quote is swapped to base
