@@ -3,7 +3,6 @@
 import logging
 
 # Import Third-party
-import requests
 
 # Import Homebrew
 from bitex.api.REST.bittrex import BittrexREST
@@ -31,13 +30,15 @@ class Bittrex(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        r = requests.request('GET', 'https://bittrex.com/api/v1.1/public/getmarkets').json()
+        r = super(Bittrex, self).request('GET',
+                                         'https://bittrex.com/api/v1.1/public/getmarkets',
+                                         endpointwithversion=True).json()
         pairs = [item['MarketName'] for item in r['result']]
         return pairs
 
     def _get_supported_pairs_formatted(self):
         """Return a list of supported pairs."""
-        pairs = self._get_supported_pairs()
+        pairs = self._supported_pairs
         pairs_formatted = []
         for pair in pairs:
             base, quote = pair.split('-')

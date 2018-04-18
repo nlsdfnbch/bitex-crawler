@@ -24,7 +24,7 @@ class HitBTC(RESTInterface):
         if self.REST.version == '1':
             r = super(HitBTC, self).request('GET', 'http://api.hitbtc.com/api/2/public/symbol',
                                             endpointwithversion=True)
-        else:
+        else:  # default is 2
             r = super(HitBTC, self).request('GET', 'public/symbol')
         return [entry['id'] for entry in r.json()]
 
@@ -52,8 +52,8 @@ class HitBTC(RESTInterface):
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
         if self.REST.version == '1':
-            return self.request('%s/orderbook' % pair, params=kwargs)   # Version 1
-        return self.request('orderbook/%s' % pair, params=kwargs)   # Version 2
+            return self.request('%s/orderbook' % pair, params=kwargs)  # Version 1
+        return self.request('orderbook/%s' % pair, params=kwargs)  # Version 2
 
     @check_and_format_pair
     @format_with(HitBTCFormattedResponse)

@@ -45,7 +45,7 @@ class Poloniex(RESTInterface):
 
     def _get_supported_pairs_formatted(self):
         """Return a list of supported pairs."""
-        pairs = self._get_supported_pairs()
+        pairs = self._supported_pairs
         pairs_formatted = []
         for pair in pairs:
             base, quote = pair.split('_')

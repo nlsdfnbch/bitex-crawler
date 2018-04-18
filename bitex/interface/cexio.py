@@ -3,7 +3,6 @@
 import logging
 
 # Import Third-party
-import requests
 
 # Import Homebrew
 from bitex.api.REST.cexio import CEXioREST
@@ -33,8 +32,8 @@ class CEXio(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        r = requests.request('GET', 'https://cex.io/api/currency_limits').json()
-        pairs = [item['symbol1']+item['symbol2'] for item in r['data']['pairs']]
+        r = self.request('currency_limits').json()
+        pairs = [item['symbol1'] + item['symbol2'] for item in r['data']['pairs']]
         return pairs
 
     ###############
@@ -92,6 +91,6 @@ class CEXio(RESTInterface):
         payload = kwargs
         return self.request('balance/', params=payload, authenticate=True)
 
-    ###########################
-    # Exchange Specific Methods
-    ###########################
+        ###########################
+        # Exchange Specific Methods
+        ###########################

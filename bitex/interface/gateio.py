@@ -32,7 +32,7 @@ class Gateio(RESTInterface):
     def _get_supported_pairs_formatted(self):
         """Return a list of supported pairs."""
         pairs_formatted = []
-        pairs = self._get_supported_pairs()
+        pairs = self._supported_pairs
         for pair in pairs:
             pair = pair.upper()
             # pair = pair[:-1] if pair[-4:] == 'USDT' else pair

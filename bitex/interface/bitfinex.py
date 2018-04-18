@@ -5,6 +5,7 @@ from bitex.api.REST.bitfinex import BitfinexREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_version_compatibility, check_and_format_pair, format_with
 from bitex.formatters import BitfinexFormattedResponse
+
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 
@@ -50,7 +51,7 @@ class Bitfinex(RESTInterface):
     def _get_supported_pairs(self):
         """Return supported pairs."""
         ret = []
-        if self.REST.version == 'v1':
+        if self.REST.version == 'v1':  # default if v1
             for i in self.symbols().json():
                 ret.append(i.upper())
         else:
@@ -61,7 +62,7 @@ class Bitfinex(RESTInterface):
 
     def _get_supported_pairs_formatted(self):
         """Return a list of supported pairs."""
-        pairs = self._get_supported_pairs()
+        pairs = self._supported_pairs
         pairs_formatted = []
         for pair in pairs:
             base = pair[:-3]
