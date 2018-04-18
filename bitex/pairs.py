@@ -144,13 +144,13 @@ class PairFormatter:
     @staticmethod
     def bittrex_formatter(base, quote):
         """Format currencies for Bittrex."""
-        quote = 'USDT' if quote == 'USD' else quote
+        # quote = 'USDT' if quote == 'USD' else quote
         return quote + '-' + base
 
     @staticmethod
     def binance_formatter(base, quote):
         """Format currencies for Binance."""
-        quote = 'USDT' if quote == 'USD' else quote
+        # quote = 'USDT' if quote == 'USD' else quote
         return base + quote
 
     @staticmethod
@@ -166,7 +166,7 @@ class PairFormatter:
     @staticmethod
     def gateio_formatter(base, quote):
         """Format currencies for Gate.io."""
-        quote = 'USDT' if quote == 'USD' else quote
+        # quote = 'USDT' if quote == 'USD' else quote
         return base.lower() + '_' + quote.lower()
 
     @staticmethod
@@ -193,9 +193,7 @@ class PairFormatter:
     @staticmethod
     def okex_formatter(base, quote):
         """Format currencies for OKCoin."""
-        if quote == 'USD':
-            quote = 'USDT'
-
+        # quote = 'USDT' if quote == 'USD' else quote
         return base.lower() + '_' + quote.lower()
 
     @staticmethod
@@ -231,8 +229,7 @@ class PairFormatter:
             As theses symbols have their own markets (several currencies are quoted in them),
             they must be handled accordingly.
         """
-        if quote == 'USD':
-            quote = 'USDT'
+        # quote = 'USDT' if quote == 'USD' else quote
         if ((quote == 'BTC') or (quote == 'USDT') or
                 (quote == 'XMR' and not (base == 'BTC' or base == 'USDT'))):
             return quote + '_' + base

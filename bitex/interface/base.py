@@ -71,10 +71,14 @@ class Interface(metaclass=abc.ABCMeta):
         pairs = self._get_supported_pairs()
         pairs_formatted = []
         for pair in pairs:
+            pair = pair.upper()
             if '_' in pair:
-                pairs_formatted.append(pair.upper())
+                pairs_formatted.append(pair)
             else:
-                pairs_formatted.append((pair[:-3] + '_' + pair[-3:]).upper())
+                if pair[-4:] == 'USDT':
+                    pairs_formatted.append(pair[:-4] + '_USDT')
+                else:
+                    pairs_formatted.append(pair[:-3] + '_' + pair[-3:])
         return pairs_formatted
 
     def is_supported(self, pair):

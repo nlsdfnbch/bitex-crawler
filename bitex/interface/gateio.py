@@ -35,8 +35,7 @@ class Gateio(RESTInterface):
         pairs = self._get_supported_pairs()
         for pair in pairs:
             pair = pair.upper()
-            if pair[-4:] == 'USDT':
-                pair = pair[:-1]
+            # pair = pair[:-1] if pair[-4:] == 'USDT' else pair
             pairs_formatted.append(pair)
         return pairs_formatted
 

@@ -41,7 +41,7 @@ class Bittrex(RESTInterface):
         pairs_formatted = []
         for pair in pairs:
             base, quote = pair.split('-')
-            base = 'USD' if base == 'USDT' else base
+            # base = 'USD' if base == 'USDT' else base
             pairs_formatted.append(quote + '_' + base)
         return pairs_formatted
 

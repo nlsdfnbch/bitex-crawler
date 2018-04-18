@@ -42,7 +42,7 @@ class Binance(RESTInterface):
         for pair in pairs:
             if pair[-4:] == 'USDT':
                 base = pair[:-4]
-                quote = 'USD'
+                quote = 'USDT'
             else:
                 base = pair[:-3]
                 quote = pair[-3:]
