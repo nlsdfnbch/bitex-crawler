@@ -49,20 +49,6 @@ class GateioREST(RESTAPI):
         except IncompleteCredentialsError:
             raise
 
-        # if self.user_id is None: # if need user_id, remove #
-        #    raise IncompleteCredentialsError
-
-    def load_config(self, fname):
-        """Load configuration from a file."""
-        conf = super(GateioREST, self).load_config(fname)
-        try:
-            self.user_id = conf['AUTH']['user_id']
-        except KeyError:
-            if self.user_id is None:
-                warnings.warn("'user_id' not found in config!",
-                              IncompleteCredentialConfigurationWarning)
-        return conf
-
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""
         req_kwargs = super(GateioREST, self).sign_request_kwargs(endpoint, **kwargs)
@@ -76,7 +62,7 @@ class GateioREST(RESTAPI):
             "Content-type": "application/x-www-form-urlencoded",
             "KEY": self.key,
             "SIGN": getsign(params, self.secret)
-            }
+        }
         # req_kwargs['data'] = params
 
         return req_kwargs
