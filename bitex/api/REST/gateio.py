@@ -7,13 +7,11 @@ Documentation available here:
 import logging
 import hashlib
 import hmac
-import warnings
 # Import Third-Party
 
 # Import Homebrew
 from bitex.api.REST import RESTAPI
 from bitex.exceptions import IncompleteCredentialsError
-from bitex.exceptions import IncompleteCredentialConfigurationWarning
 
 log = logging.getLogger(__name__)
 
