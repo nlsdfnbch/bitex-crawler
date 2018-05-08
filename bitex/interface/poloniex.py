@@ -7,7 +7,6 @@ from bitex.api.REST.poloniex import PoloniexREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
 from bitex.formatters import PoloniexFormattedResponse
-from bitex.exceptions import PairFetchError
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
@@ -41,11 +40,8 @@ class Poloniex(RESTInterface):
         """Return a list of supported pairs."""
         # Retrieve the pairs through a call to the public ticker endpoint.
         # Can't call self.ticker, because it looks up the pair in this method.
-        r = self.request("returnTicker")
-        if not r.ok:
-            raise PairFetchError(r.ok,r.status_code,r.reason)
-
-        return list(r.json().keys())
+        resp = self.request("returnTicker")
+        return list(resp.json().keys())
 
     def _get_supported_pairs_formatted(self):
         """Return a list of supported pairs."""

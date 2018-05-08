@@ -9,7 +9,6 @@ import requests
 # Import Homebrew
 from bitex.api.base import BaseAPI
 
-requests.adapters.DEFAULT_RETRIES = 10
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 
@@ -89,7 +88,7 @@ class RESTAPI(BaseAPI):
                                     timeout=self.timeout)
         else:
             resp = requests.request(**request_kwargs, proxies=self.proxies, timeout=self.timeout)
-        # if not resp.ok: print('===RESP not OK',resp.ok, resp.reason, resp.status_code, resp.url)  # resp.content,resp.json())
+        # print(resp.ok, resp.reason, resp.status_code, resp.url)  # resp.content,resp.json())
         return resp
 
     def private_query(self, method_verb, endpoint, **request_kwargs):

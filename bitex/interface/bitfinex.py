@@ -5,7 +5,6 @@ from bitex.api.REST.bitfinex import BitfinexREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_version_compatibility, check_and_format_pair, format_with
 from bitex.formatters import BitfinexFormattedResponse
-from bitex.exceptions import PairFetchError
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
@@ -51,19 +50,15 @@ class Bitfinex(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return supported pairs."""
+        ret = []
         if self.REST.version == 'v1':  # default if v1
-            r = self.symbols()
+            for i in self.symbols().json():
+                ret.append(i.upper())
         else:
-            r = super(Bitfinex, self).request('GET', 'https://api.bitfinex.com/v1/symbols',
-                                              endpointwithversion=True)
-        if not r.ok:
-            raise PairFetchError(r.ok,r.status_code,r.reason)
-        pairs=r.json()
-        if not isinstance(pairs, list):
-            raise PairFetchError(pairs)
-
-        pairs = [p.upper() for p in pairs]
-        return pairs
+            for i in super(Bitfinex, self).request('GET', 'https://api.bitfinex.com/v1/symbols',
+                                                   endpointwithversion=True).json():
+                ret.append(i.upper())
+        return ret
 
     def _get_supported_pairs_formatted(self):
         """Return a list of supported pairs."""
@@ -97,7 +92,7 @@ class Bitfinex(RESTInterface):
         self.is_supported(pair)
         if self.REST.version == 'v1':
             return self.request('pubticker/%s' % pair)
-        return self.request('ticker/t%s' % pair, params=endpoint_kwargs)
+        return self.request('ticker/%s' % pair, params=endpoint_kwargs)
 
     @check_and_format_pair
     @format_with(BitfinexFormattedResponse)
@@ -106,7 +101,7 @@ class Bitfinex(RESTInterface):
         self.is_supported(pair)
         if self.REST.version == 'v1':
             return self.request('trades/%s' % pair, params=endpoint_kwargs)
-        return self.request('trades/t%s/hist' % pair, params=endpoint_kwargs)
+        return self.request('trades/%s/hist' % pair, params=endpoint_kwargs)
 
     @check_and_format_pair
     @format_with(BitfinexFormattedResponse)

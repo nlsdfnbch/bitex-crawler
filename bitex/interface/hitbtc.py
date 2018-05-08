@@ -7,7 +7,6 @@ from bitex.api.REST.hitbtc import HitBTCREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
 from bitex.formatters import HitBTCFormattedResponse
-from bitex.exceptions import PairFetchError
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
@@ -27,14 +26,7 @@ class HitBTC(RESTInterface):
                                             endpointwithversion=True)
         else:  # default is 2
             r = super(HitBTC, self).request('GET', 'public/symbol')
-
-        if not r.ok:
-            raise PairFetchError(r.ok,r.status_code,r.reason)
-        r=r.json()
-
-        if not isinstance(r, list):
-            raise PairFetchError(r)
-        return [entry['id'] for entry in r]
+        return [entry['id'] for entry in r.json()]
 
     # pylint: disable=arguments-differ
     def request(self, endpoint, authenticate=False, verb=None, **req_kwargs):
