@@ -8,7 +8,6 @@ from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
 from bitex.formatters import BitstampFormattedResponse
 
-
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 
@@ -46,19 +45,19 @@ class Bitstamp(RESTInterface):
     @format_with(BitstampFormattedResponse)
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
-        return self.request('ticker/%s/' % pair, params=kwargs)
+        return self.request('ticker/{}/'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(BitstampFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
-        return self.request('order_book/%s/' % pair, params=kwargs)
+        return self.request('order_book/{}/'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(BitstampFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return trades for the given pair."""
-        return self.request('transactions/%s/' % pair, params=kwargs)
+        return self.request('transactions/{}/'.format(pair), params=kwargs)
 
     # Private Endpoints
     @check_and_format_pair
@@ -78,8 +77,9 @@ class Bitstamp(RESTInterface):
         payload = {'amount': size, 'price': price}
         payload.update(kwargs)
         if market:
-            return self.request('%s/market/%s/' % (side, pair), authenticate=True, params=payload)
-        return self.request('%s/%s/' % (side, pair), authenticate=True, params=payload)
+            return self.request('{}/market/{}/'.format(side, pair), authenticate=True,
+                                params=payload)
+        return self.request('{}/{}/'.format(side, pair), authenticate=True, params=payload)
 
     @format_with(BitstampFormattedResponse)
     def order_status(self, order_id, *args, **kwargs):
@@ -92,7 +92,7 @@ class Bitstamp(RESTInterface):
     def open_orders(self, *args, pair=None, **kwargs):
         """Return all open orders."""
         if pair:
-            return self.request('open_orders/%s/' % pair, authenticate=True, params=kwargs)
+            return self.request('open_orders/{}/'.format(pair), authenticate=True, params=kwargs)
         return self.request('open_orders/all/', authenticate=True, params=kwargs)
 
     @format_with(BitstampFormattedResponse)
@@ -114,7 +114,7 @@ class Bitstamp(RESTInterface):
                 pair = kwargs['pair'].format_for(self.name).lower()
             except AttributeError:
                 pair = kwargs['pair']
-            return self.request('balance/%s/' % pair, authenticate=True, params=kwargs)
+            return self.request('balance/{}/'.format(pair), authenticate=True, params=kwargs)
         return self.request('balance/', authenticate=True, params=kwargs)
 
     ###########################
@@ -125,7 +125,7 @@ class Bitstamp(RESTInterface):
     def hourly_ticker(self, pair, **kwargs):
         """Return the hourly ticker for the given pair."""
         if pair:
-            return self.request('ticker_hour/%s/' % pair, params=kwargs)
+            return self.request('ticker_hour/{}/'.format(pair), params=kwargs)
         return self.request('api/ticker_hour/')
 
     def eur_usd_conversion_rate(self, **kwargs):
@@ -136,7 +136,8 @@ class Bitstamp(RESTInterface):
     def user_transactions(self, pair, **kwargs):
         """Return user transactions."""
         if pair:
-            return self.request('user_transactions/%s/' % pair, authenticate=True, params=kwargs)
+            return self.request('user_transactions/{}/'.format(pair), authenticate=True,
+                                params=kwargs)
         return self.request('api/user_transactions/', authenticate=True, params=kwargs)
 
     def cancel_all_orders(self, **kwargs):

@@ -39,7 +39,7 @@ class GDAX(RESTInterface):
         :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
-        return self.request('GET', 'products/%s/ticker' % pair, params=kwargs)
+        return self.request('GET', 'products/{}/ticker'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(GDAXFormattedResponse)
@@ -52,7 +52,7 @@ class GDAX(RESTInterface):
         :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
-        return self.request('GET', 'products/%s/book' % pair, params=kwargs)
+        return self.request('GET', 'products/{}/book'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(GDAXFormattedResponse)
@@ -65,7 +65,7 @@ class GDAX(RESTInterface):
         :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
-        return self.request('GET', 'products/%s/trades' % pair, params=kwargs)
+        return self.request('GET', 'products/{}/trades'.format(pair), params=kwargs)
 
     # Private Endpoints
 
@@ -114,7 +114,7 @@ class GDAX(RESTInterface):
         :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
-        return self.request('GET', 'orders/%s' % order_id, authenticate=True, json=kwargs)
+        return self.request('GET', 'orders/{}'.format(order_id), authenticate=True, json=kwargs)
 
     @format_with(GDAXFormattedResponse)
     def open_orders(self, *args, **kwargs):
@@ -136,10 +136,10 @@ class GDAX(RESTInterface):
         :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
-        path = 'orders/%s'
+        path = 'orders/{}'
         resps = []
         for oid in order_ids:
-            resps.append(self.request('DELETE', path % oid, authenticate=True, json=kwargs))
+            resps.append(self.request('DELETE', path.format(oid), authenticate=True, json=kwargs))
         return resps if len(resps) > 1 else resps[0]
 
     @format_with(GDAXFormattedResponse)

@@ -88,7 +88,6 @@ class RESTAPI(BaseAPI):
                                     timeout=self.timeout)
         else:
             resp = requests.request(**request_kwargs, proxies=self.proxies, timeout=self.timeout)
-        # print(resp.ok, resp.reason, resp.status_code, resp.url)  # resp.content,resp.json())
         return resp
 
     def private_query(self, method_verb, endpoint, **request_kwargs):

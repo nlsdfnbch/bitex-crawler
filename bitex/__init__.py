@@ -27,4 +27,5 @@ from bitex.pairs import BTCUSD, ZECUSD, XMRUSD, ETCUSD, ETHUSD, DASHUSD, BTCKRW
 from bitex.formatters import APIResponse
 
 from bitex._version import __version__
+
 VERSION = __version__

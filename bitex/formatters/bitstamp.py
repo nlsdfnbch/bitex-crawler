@@ -40,7 +40,8 @@ class BitstampFormattedResponse(APIResponse):
         timestamp = datetime.utcnow()
         for trade in data:
             tradelst.append({'id': trade['tid'], 'price': trade['price'], 'qty': trade['amount'],
-                             'time': int(trade['date'])*1000, 'isBuyerMaker': trade['type'] == '0',
+                             'time': int(trade['date']) * 1000,
+                             'isBuyerMaker': trade['type'] == '0',
                              'isBestMatch': None})
             # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
             # raise NotImplementedError

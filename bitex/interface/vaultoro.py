@@ -60,9 +60,8 @@ class Vaultoro(RESTInterface):
         """Place an order with the given parameters."""
         order_type = 'limit' if not market_order else 'market'
         q = {'gld': size, 'price': price}
-        return self.request('%s/gld/%s' %
-                            (side, order_type), authenticate=True,
-                            post=True, params=q)
+        return self.request('{}/gld/{}'.format(side, order_type), authenticate=True, post=True,
+                            params=q)
 
     # pylint: disable=arguments-differ
     @check_and_format_pair
@@ -96,7 +95,7 @@ class Vaultoro(RESTInterface):
         """Cancel order(s) with the given order ID(s)."""
         results = []
         for oid in order_ids:
-            r = self.request('cancel/%s' % oid,
+            r = self.request('cancel/{}'.format(oid),
                              authenticate=True, post=True, params=kwargs)
             results.append(r)
         return results if len(results) > 1 else results[0]

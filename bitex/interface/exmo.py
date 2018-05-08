@@ -8,7 +8,6 @@ from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
 from bitex.formatters import ExmoFormattedResponse
 
-
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 
@@ -50,13 +49,13 @@ class Exmo(RESTInterface):
     @format_with(ExmoFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
-        return self.request('v1/order_book/?pair=%s' % pair, params=kwargs)
+        return self.request('v1/order_book/?pair={}'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(ExmoFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return trades for the given pair."""
-        return self.request('v1/trades/?pair=%s' % pair, params=kwargs)
+        return self.request('v1/trades/?pair={}'.format(pair), params=kwargs)
 
     # Private Endpoints
     @check_and_format_pair
@@ -99,9 +98,5 @@ class Exmo(RESTInterface):
             except AttributeError:
                 pair = kwargs['pair']
 
-            return self.request('balance/%s/' % pair, authenticate=True, params=kwargs)
+            return self.request('balance/{}/'.format(pair), authenticate=True, params=kwargs)
         return self.request('v1/user_info', authenticate=True, params=kwargs)
-
-    ###########################
-    # Exchange Specific Methods
-    ###########################

@@ -1,4 +1,4 @@
-"""Bitstamp Interface class."""
+"""Bithumb Interface class."""
 # Import Built-Ins
 import logging
 from bitex.api.REST.bithumb import BithumbREST
@@ -46,19 +46,19 @@ class Bithumb(RESTInterface):
     @check_and_format_pair
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for a given pair."""
-        return self.request('public/ticker/%s' % pair)
+        return self.request('public/ticker/{}'.format(pair))
 
     @check_and_format_pair
     @format_with(BithumbFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order_book for a given pair."""
-        return self.request('public/orderbook/%s' % pair)
+        return self.request('public/orderbook/{}'.format(pair))
 
     @check_and_format_pair
     @format_with(BithumbFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return the trades for the given pair."""
-        return self.request('public/recent_transactions/%s' % pair)
+        return self.request('public/recent_transactions/{}'.format(pair))
 
     # Private Endpoints
     @check_and_format_pair
@@ -98,6 +98,6 @@ class Bithumb(RESTInterface):
         payload = kwargs
         return self.request('info/balance', params=payload, authenticate=True)
 
-    ###########################
-    # Exchange Specific Methods
-    ###########################
+        ###########################
+        # Exchange Specific Methods
+        ###########################

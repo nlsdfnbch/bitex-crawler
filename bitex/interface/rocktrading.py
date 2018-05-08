@@ -32,26 +32,27 @@ class TheRockTrading(RESTInterface):
     @format_with(RockTradingFormattedResponse)
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
-        return self.request('GET', 'funds/%s/ticker' % pair, params=kwargs)
+        return self.request('GET', 'funds/{}/ticker'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(RockTradingFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
-        return self.request('GET', 'funds/%s/orderbook' % pair, params=kwargs)
+        return self.request('GET', 'funds/{}/orderbook'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(RockTradingFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return the trades for the given pair."""
-        return self.request('GET', 'funds/%s/trades' % pair, params=kwargs)
+        return self.request('GET', 'funds/{}/trades'.format(pair), params=kwargs)
 
     # Private Endpoints
     def _place_order(self, pair, price, size, side, **kwargs):
         """Place an order with the given parameters."""
         payload = {'price': price, 'amount': size, 'side': side}
         payload.update(kwargs)
-        return self.request('POST', 'funds/%s/orders' % pair, authenticate=True, params=payload)
+        return self.request('POST', 'funds/{}/orders'.format(pair), authenticate=True,
+                            params=payload)
 
     @check_and_format_pair
     @format_with(RockTradingFormattedResponse)
@@ -74,7 +75,7 @@ class TheRockTrading(RESTInterface):
             pair = kwargs.pop('pair')
         except KeyError:
             pair = kwargs.pop('fund_id')
-        return self.request('GET', 'funds/%s/orders/%s' % (pair, order_id), authenticate=True,
+        return self.request('GET', 'funds/{}/orders/{}'.format(pair, order_id), authenticate=True,
                             params=kwargs)
 
     @format_with(RockTradingFormattedResponse)
@@ -83,7 +84,7 @@ class TheRockTrading(RESTInterface):
         if 'pair' not in kwargs and 'fund_id' not in kwargs:
             results = []
             for fund_id in self.supported_pairs:
-                r = self.request('GET', 'funds/%s/orders' % fund_id, authenticate=True,
+                r = self.request('GET', 'funds/{}/orders'.format(fund_id), authenticate=True,
                                  params=kwargs)
                 results.append(r)
             return results if len(results) > 1 else results[0]
@@ -92,7 +93,7 @@ class TheRockTrading(RESTInterface):
         except KeyError:
             pair = kwargs.pop('fund_id')
 
-        return self.request('GET', 'funds/%s/orders' % pair, authenticate=True, params=kwargs)
+        return self.request('GET', 'funds/{}/orders'.format(pair), authenticate=True, params=kwargs)
 
     # pylint: disable=arguments-differ
     @format_with(RockTradingFormattedResponse)
@@ -110,10 +111,11 @@ class TheRockTrading(RESTInterface):
             except KeyboardInterrupt:
                 pair = kwargs.pop('fund_id')
         if all_orders:
-            return self.request('DELETE', 'funds/%s/orders/remove_all' % pair, authenticate=True,
+            return self.request('DELETE', 'funds/{}/orders/remove_all'.format(pair),
+                                authenticate=True,
                                 params=kwargs)
         for oid in order_ids:
-            r = self.request('DELETE', 'funds/%s/orders/%s' % (pair, oid), authenticate=True,
+            r = self.request('DELETE', 'funds/{}/orders/{}'.format(pair, oid), authenticate=True,
                              params=kwargs)
             results.append(r)
         return results if len(results) > 1 else results[0]

@@ -1,7 +1,7 @@
-"""Bitstamp REST API backend.
+"""Gimini REST API backend.
 
 Documentation available here:
-    https://www.bitstamp.net/api/
+    https://docs.gemini.com/rest-api/
 """
 # Import Built-ins
 import logging

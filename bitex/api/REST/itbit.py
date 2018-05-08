@@ -1,7 +1,7 @@
-"""Bitstamp REST API backend.
+"""Itbit REST API backend.
 
 Documentation available here:
-    https://www.bitstamp.net/api/
+    https://www.itbit.com/api
 """
 # Import Built-ins
 import logging

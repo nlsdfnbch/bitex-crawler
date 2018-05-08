@@ -2,6 +2,12 @@
 
 Documentation available at:
     https://docs.bitfinex.com/docs
+    Important:
+        If an IP address exceeds a certain number of requests per minute (between 10 and 90) to a
+        specific REST API endpoint e.g., /ticker, the requesting IP address will be blocked for
+        10-60 seconds on that endpoint and the JSON response {"error": "ERR_RATE_LIMIT"} will be
+        returned.
+
 """
 # pylint: disable=too-many-arguments
 # Import Built-ins
@@ -77,8 +83,3 @@ class BitfinexREST(RESTAPI):
                                      "content-type": "application/json"}
 
         return req_kwargs
-
-        # If an IP address exceeds a certain number of requests per minute (between 10 and 90) to a
-        # specific REST API endpoint e.g., /ticker, the requesting IP address will be blocked for
-        # 10-60 seconds on that endpoint and the JSON response {"error": "ERR_RATE_LIMIT"} will be
-        # returned.

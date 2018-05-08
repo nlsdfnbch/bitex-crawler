@@ -1,7 +1,7 @@
 """Bitstamp REST API backend.
 
 Documentation available here:
-    https://www.bitstamp.net/api/
+    https://api.hitbtc.com/
 """
 # Import Built-ins
 import logging

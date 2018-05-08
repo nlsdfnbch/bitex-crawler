@@ -1,7 +1,7 @@
-"""Bitfinex REST API backend.
+"""Binance REST API backend.
 
 Documentation available at:
-    https://docs.bitfinex.com/docs
+    https://github.com/binance-exchange/binance-official-api-docs
 """
 # pylint: disable=too-many-arguments
 # Import Built-ins
@@ -70,7 +70,6 @@ class BinanceREST(RESTAPI):
         else:
             req_kwargs['data'] = req_string
 
-        req_kwargs['headers'] = {'X-MBX-APIKEY': self.key}
-        # req_kwargs['headers'] = {'X-MBX-APIKEY': self.key.encode('utf-8')}
+        req_kwargs['headers'] = {'X-MBX-APIKEY': self.key.encode('utf-8')}  # no encode can work too
 
         return req_kwargs

@@ -101,7 +101,8 @@ class PairFormatter:
             elif cur in ('USD', 'EUR', 'GBP', 'JPY', 'CAD'):
                 return 'Z' + cur
             return 'X' + cur
-        if (base+quote).upper() in format_exceptions:
+
+        if (base + quote).upper() in format_exceptions:
             return (base + quote).upper()
         return add_prefix(base) + add_prefix(quote)
 
@@ -128,7 +129,7 @@ class PairFormatter:
     @staticmethod
     def cexio_formatter(base, quote):
         """Format currencies for CEXIO."""
-        return base.upper()+quote.upper()
+        return base.upper() + quote.upper()
 
     @staticmethod
     def bitfinex_formatter(base, quote):

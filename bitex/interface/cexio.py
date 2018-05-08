@@ -43,19 +43,19 @@ class CEXio(RESTInterface):
     @check_and_format_pair
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
-        return self.request('ticker/%s/%s' % (pair[:-3], pair[-3:]))
+        return self.request('ticker/{}/{}'.format(pair[:-3], pair[-3:]))
 
     @check_and_format_pair
     @format_with(CEXioFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for a given pair."""
-        return self.request('order_book/%s/%s' % (pair[:-3], pair[-3:]))
+        return self.request('order_book/{}/{}'.format(pair[:-3], pair[-3:]))
 
     @check_and_format_pair
     @format_with(CEXioFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return the trades for the given pair."""
-        return self.request('trade_history/%s/%s' % (pair[:-3], pair[-3:]))
+        return self.request('trade_history/{}/{}'.format(pair[:-3], pair[-3:]))
 
     # Private Endpoints
     @check_and_format_pair

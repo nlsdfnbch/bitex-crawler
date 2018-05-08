@@ -39,11 +39,11 @@ class BithumbREST(RESTAPI):
         # uri = self.generate_uri(endpoint)
         nonce = self.nonce()
 
-        # uri_array = {"endpoint": '/'+endpoint, "order_currency": "BTC", "payment_currency": "KRW"}
-        uri_array = dict({"endpoint": '/'+endpoint}, **params)
-        str_data = urllib.parse.urlencode(uri_array)
-        message = '/'+endpoint + chr(0) + str_data + chr(0) + nonce
-        sign = hmac.new(bytes(self.secret, encoding="utf-8"), msg=bytes(message, encoding="utf-8"),
+        # uri_dict = {"endpoint": '/'+endpoint, "order_currency": "BTC", "payment_currency": "KRW"}
+        uri_dict = dict({"endpoint": '/' + endpoint}, **params)
+        str_data = urllib.parse.urlencode(uri_dict)
+        message = '/' + endpoint + chr(0) + str_data + chr(0) + nonce
+        sign = hmac.new(self.secret.encode("utf-8"), msg=message.encode("utf-8"),
                         digestmod=hashlib.sha512)
         signature = sign.hexdigest()
         signature = (base64.b64encode(signature.encode('utf-8'))).decode('utf-8')
@@ -52,6 +52,6 @@ class BithumbREST(RESTAPI):
         req_kwargs['headers'] = {"Api-Key": self.key,
                                  "Api-Sign": signature,
                                  "Api-Nonce": nonce, }
-        req_kwargs['data'] = uri_array
+        req_kwargs['data'] = uri_dict
 
         return req_kwargs

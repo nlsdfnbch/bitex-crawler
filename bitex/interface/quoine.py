@@ -55,7 +55,7 @@ class Quoine(RESTInterface):
         :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
-        return self.request('GET', 'products/%s/price_levels' % pair, params=kwargs)
+        return self.request('GET', 'products/{}/price_levels'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(QuoineFormattedResponse)
@@ -126,7 +126,7 @@ class Quoine(RESTInterface):
         :param kwargs: additional kwargs, passed to requests.Requests() as 'param' kwarg.
         :return: :class:`requests.Response()` object.
         """
-        return self.request('GET', 'orders/%s' % order_id, authenticate=True,
+        return self.request('GET', 'orders/{}'.format(order_id), authenticate=True,
                             params=kwargs)
 
     @format_with(QuoineFormattedResponse)
@@ -151,7 +151,7 @@ class Quoine(RESTInterface):
         """
         results = []
         for oid in order_ids:
-            r = self.request('PUT', 'orders/%s/cancel' % oid, authenticate=True,
+            r = self.request('PUT', 'orders/{}/cancel'.format(oid), authenticate=True,
                              params=kwargs)
             results.append(r)
         return results if len(results) > 1 else results[0]

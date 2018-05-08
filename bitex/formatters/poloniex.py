@@ -46,7 +46,7 @@ class PoloniexFormattedResponse(APIResponse):
         timestamp = datetime.utcnow()
         for trade in data:
             tradelst.append({'id': trade['tradeID'], 'price': trade['rate'], 'qty': trade['amount'],
-                             'time': int(timetrans(trade['date'], 'timestamp')*1000),
+                             'time': int(timetrans(trade['date'], 'timestamp') * 1000),
                              'isBuyerMaker': trade['type'] == 'buy', 'isBestMatch': None})
             # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
             # raise NotImplementedError

@@ -54,7 +54,7 @@ class BittrexFormattedResponse(APIResponse):
         timestamp = datetime.utcnow()
         for trade in data:
             tradelst.append({'id': trade['Id'], 'price': trade['Price'], 'qty': trade['Quantity'],
-                             'time': timetrans(trade['TimeStamp'], 'timestamp')*1000,
+                             'time': timetrans(trade['TimeStamp'], 'timestamp') * 1000,
                              'isBuyerMaker': trade['OrderType'] == 'BUY', 'isBestMatch': None})
             # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
             # raise NotImplementedError

@@ -1,7 +1,7 @@
-"""Bitstamp REST API backend.
+"""QuadrigaCX REST API backend.
 
 Documentation available here:
-    https://www.bitstamp.net/api/
+    https://www.quadrigacx.com/api_info
 """
 # Import Built-ins
 import logging

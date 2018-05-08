@@ -12,7 +12,6 @@ from urllib.parse import urlencode
 # Import Homebrew
 from bitex.api.REST import RESTAPI
 
-
 log = logging.getLogger(__name__)
 
 

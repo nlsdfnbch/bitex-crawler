@@ -1,7 +1,8 @@
-"""Bitstamp REST API backend.
+"""Cryptopia REST API backend.
 
 Documentation available here:
-    https://www.bitstamp.net/api/
+    https://www.cryptopia.co.nz/Forum/Thread/255
+    https://www.cryptopia.co.nz/Forum/Thread/256
 """
 # Import Built-ins
 import logging
@@ -88,7 +89,7 @@ class CryptopiaREST(RESTAPI):
         request_content_b64_string = base64.b64encode(md5.digest()).decode('utf-8')
         signature = (self.key + 'POST' + parsed_url + nonce + request_content_b64_string)
 
-        sec = decode_base64(self.secret.encode())
+        sec = decode_base64(self.secret.encode('utf-8'))
         hmac_sig = base64.b64encode(hmac.new(sec,
                                              signature.encode('utf-8'),
                                              hashlib.sha256).digest())

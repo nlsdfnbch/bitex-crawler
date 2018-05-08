@@ -25,7 +25,7 @@ class BithumbFormattedResponse(APIResponse):
         low = data["min_price"]
         last = data["closing_price"]
         volume = data["volume_1day"]
-        timestamp = datetime.utcfromtimestamp(float(data["date"])/1000)
+        timestamp = datetime.utcfromtimestamp(float(data["date"]) / 1000)
 
         return super(BithumbFormattedResponse, self).ticker(bid, ask, high, low, last, volume,
                                                             timestamp)

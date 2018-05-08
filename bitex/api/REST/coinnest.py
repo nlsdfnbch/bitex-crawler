@@ -13,7 +13,6 @@ import urllib
 
 # Import Homebrew
 from bitex.api.REST import RESTAPI
-from bitex.exceptions import IncompleteCredentialsError
 
 log = logging.getLogger(__name__)
 
@@ -29,13 +28,6 @@ class CoinnestREST(RESTAPI):
                                            key=key, secret=secret,
                                            timeout=timeout, config=config, proxies=proxies)
 
-    def check_auth_requirements(self):
-        """Check if authentication requirements are met."""
-        try:
-            super(CoinnestREST, self).check_auth_requirements()
-        except IncompleteCredentialsError:
-            raise
-
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""
         req_kwargs = super(CoinnestREST, self).sign_request_kwargs(endpoint, **kwargs)
@@ -44,12 +36,12 @@ class CoinnestREST(RESTAPI):
         # params = req_kwargs.pop('params')
 
         nonce = str(int(round(time.time() * 1000)))
-        uri_array = {"key": self.key, "nonce": nonce}
-        str_data = urllib.parse.urlencode(uri_array)
-        sign = bytes(str_data, encoding='utf8')
+        payload = {"key": self.key, "nonce": nonce}
+        str_data = urllib.parse.urlencode(payload)
+        sign = str_data.encode('utf-8')
 
-        md5 = hashlib.md5(bytes(self.secret, encoding='utf8')).hexdigest()
-        key = bytes(md5, encoding='utf8')
+        md5 = hashlib.md5(self.secret.encode('utf-8')).hexdigest()
+        key = md5.encode('utf-8')
 
         sign = hmac.new(key, sign, hashlib.sha256)
         signature = sign.hexdigest()

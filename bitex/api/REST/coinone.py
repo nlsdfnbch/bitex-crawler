@@ -37,10 +37,9 @@ class CoinoneREST(RESTAPI):
         payload = req_kwargs.pop('params')
         payload['nonce'] = self.nonce()
         dumped_json = json.dumps(payload)
-        encoded_payload = base64.b64encode(bytes(dumped_json, encoding='utf8'))
+        encoded_payload = base64.b64encode(dumped_json.encode('utf-8'))
 
-        sign = hmac.new(bytes(self.secret.upper(), encoding='utf8'), encoded_payload,
-                        hashlib.sha512)
+        sign = hmac.new(self.secret.upper().encode('utf8'), encoded_payload, hashlib.sha512)
         signature = sign.hexdigest()
         headers = {
             'Content-Type': 'application/json',

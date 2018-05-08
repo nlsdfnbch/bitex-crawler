@@ -34,7 +34,7 @@ class HitBTCFormattedResponse(APIResponse):
         if 'asks' in data:  # api version 1
             bids = data['bids']
             asks = data['asks']
-        else:        # api version 2
+        else:  # api version 2
             asks = []
             bids = []
             for i in data['ask']:
@@ -52,7 +52,7 @@ class HitBTCFormattedResponse(APIResponse):
         timestamp = datetime.utcnow()
         for trade in data:
             tradelst.append({'id': trade['id'], 'price': trade['price'], 'qty': trade['quantity'],
-                             'time': timetrans(trade['timestamp'], 'timestamp')*1000,
+                             'time': timetrans(trade['timestamp'], 'timestamp') * 1000,
                              'isBuyerMaker': trade['side'] == 'buy', 'isBestMatch': None})
             # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
             # raise NotImplementedError

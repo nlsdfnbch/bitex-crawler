@@ -38,7 +38,7 @@ class CCEX(RESTInterface):
     @format_with(CCEXFormattedResponse)
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
-        return self.request('%s.json' % pair, params=kwargs)
+        return self.request('{}.json'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(CCEXFormattedResponse)

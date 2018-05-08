@@ -37,12 +37,12 @@ class BitfinexFormattedResponse(APIResponse):
                 asks.append([i['price'], i['amount']])
             for i in data['bids']:
                 bids.append([i['price'], i['amount']])
-        else:   # api version 2
+        else:  # api version 2
             for i in data:
-                if i[2][1] == '-':
-                    bids.append([i[0], i[2]])
+                if i[2][0] == '-':
+                    bids.append([i[0], i[2][1:]])
                 else:
-                    asks.append([i[0], i[2][1:]])
+                    asks.append([i[0], i[2]])
         timestamp = datetime.utcnow()
         return super(BitfinexFormattedResponse, self).order_book(bids, asks, timestamp)
 
@@ -53,7 +53,7 @@ class BitfinexFormattedResponse(APIResponse):
         timestamp = datetime.utcnow()
         for trade in data:
             tradelst.append({'id': trade['tid'], 'price': trade['price'],
-                             'qty': trade['amount'], 'time': trade['timestamp']+'000',
+                             'qty': trade['amount'], 'time': trade['timestamp'] + '000',
                              'isBuyerMaker': trade['type'] == 'buy', 'isBestMatch': None})
             # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
             # raise NotImplementedError

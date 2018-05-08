@@ -20,10 +20,8 @@ class Coinone(RESTInterface):
 
     def request(self, endpoint, authenticate=False, **req_kwargs):
         """Generate a request to the API."""
-        if not authenticate:
-            return super(Coinone, self).request('GET', endpoint, authenticate=authenticate,
-                                                **req_kwargs)
-        return super(Coinone, self).request('POST', endpoint, authenticate=authenticate,
+        method = 'POST' if authenticate else 'GET'
+        return super(Coinone, self).request(method, endpoint, authenticate=authenticate,
                                             **req_kwargs)
 
     def _get_supported_pairs(self):
@@ -46,13 +44,13 @@ class Coinone(RESTInterface):
     @check_and_format_pair
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
-        return self.request('ticker?currency=%s' % pair)
+        return self.request('ticker?currency={}'.format(pair))
 
     @check_and_format_pair
     @format_with(CoinoneFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
-        return self.request('orderbook?currency=%s' % pair)
+        return self.request('orderbook?currency={}'.format(pair))
         # payload = {'currency': pair}
         # payload.update(kwargs)
         # return self.request('orderbook', params=payload)
@@ -98,6 +96,6 @@ class Coinone(RESTInterface):
         payload['access_token'] = self.REST.key
         return self.request('v2/account/balance/', params=payload, authenticate=True)
 
-    ###########################
-    # Exchange Specific Methods
-    ###########################
+        ###########################
+        # Exchange Specific Methods
+        ###########################

@@ -32,14 +32,16 @@ def check_version_compatibility(**version_func_pairs):
                 if func.__name__ in methods:
                     if version.replace('_', '.') != interface.REST.version:
                         error_msg = ("Method not available on this API version"
-                                     "(current is %s, supported is %s)" %
-                                     (interface.REST.version,
-                                      version.replace('_', '.')))
+                                     "(current is %s, supported is %s)" % (
+                                         interface.REST.version, version.replace('_', '.')))
                         raise UnsupportedEndpointError(error_msg)
 
             return func(*args, **kwargs)
+
         return wrapped
+
     return decorator
+
 
 # pylint: disable=protected-access
 
@@ -62,8 +64,9 @@ def check_and_format_pair(func):
         except IndexError:
             pass
         if pair not in self.supported_pairs:
-            raise AssertionError("%s is not supported by this exchange!" % pair)
+            raise AssertionError("{} is not supported by this exchange!".format(pair))
         return func(self, pair, *remaining_args, **kwargs)
+
     return wrapped
 
 
@@ -123,14 +126,14 @@ def timetrans(atime, tgttype):
                 dtdt = datetime.strptime(atime, '%Y-%m-%d %H:%M:%S')
     elif isinstance(atime, datetime):
         dtdt = atime
-    else:   # float timestamp
+    else:  # float timestamp
         dtdt = datetime.fromtimestamp(atime)
 
     if tgttype == 'str':
         ret = datetime.strftime(dtdt, '%Y-%m-%d %H:%M:%S')
     elif tgttype == 'datetime':
         ret = dtdt
-    else:   # float timestamp
+    else:  # float timestamp
         ret = datetime.timestamp(dtdt)
 
     return ret

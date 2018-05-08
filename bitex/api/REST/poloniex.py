@@ -1,4 +1,4 @@
-"""Bitstamp REST API backend.
+"""Poloniex REST API backend.
 
 Documentation available here:
     https://www.bitstamp.net/api/
@@ -10,7 +10,6 @@ import hmac
 import time
 import urllib
 import urllib.parse
-
 
 # Import Third-Party
 

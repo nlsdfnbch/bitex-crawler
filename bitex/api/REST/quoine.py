@@ -1,4 +1,4 @@
-"""Bitstamp REST API backend.
+"""Quoine REST API backend.
 
 Documentation available here:
     https://www.bitstamp.net/api/

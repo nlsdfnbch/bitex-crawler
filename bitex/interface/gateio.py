@@ -8,7 +8,6 @@ from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
 from bitex.formatters import GateioFormattedResponse
 
-
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 
@@ -52,21 +51,21 @@ class Gateio(RESTInterface):
 
     @check_and_format_pair  # Gateio ticker response all pairs
     @format_with(GateioFormattedResponse)
-    def ticker(self, pair, *args, **kwargs):    # tickers is all pair ticker
+    def ticker(self, pair, *args, **kwargs):  # tickers is all pair ticker
         """Return the ticker for the given pair."""
-        return self.request('api.gateio.io/api2/1/ticker/%s' % pair, params=kwargs)
+        return self.request('api.gateio.io/api2/1/ticker/{}'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(GateioFormattedResponse)
-    def order_book(self, pair, *args, **kwargs):    # orderBooks is all pair orderBook
+    def order_book(self, pair, *args, **kwargs):  # orderBooks is all pair orderBook
         """Return the order book for the given pair."""
-        return self.request('api.gateio.io/api2/1/orderBook/%s' % pair, params=kwargs)
+        return self.request('api.gateio.io/api2/1/orderBook/{}'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(GateioFormattedResponse)
     def trades(self, pair, *args, **kwargs):
         """Return trades for the given pair."""
-        return self.request('api.gateio.io/api2/1/tradeHistory/%s' % pair, params=kwargs)
+        return self.request('api.gateio.io/api2/1/tradeHistory/{}'.format(pair), params=kwargs)
 
     # Private Endpoints
     @check_and_format_pair
@@ -106,6 +105,6 @@ class Gateio(RESTInterface):
         return self.request('api.gateio.io/api2/1/private/balances/', authenticate=True,
                             params=kwargs)
 
-    ###########################
-    # Exchange Specific Methods
-    ###########################
+        ###########################
+        # Exchange Specific Methods
+        ###########################

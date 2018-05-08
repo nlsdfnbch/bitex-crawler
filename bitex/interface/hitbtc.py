@@ -44,16 +44,16 @@ class HitBTC(RESTInterface):
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
         if self.REST.version == '1':
-            return self.request('%s/ticker' % pair, params=kwargs)
-        return self.request('ticker/%s' % pair, params=kwargs)
+            return self.request('{}/ticker'.format(pair), params=kwargs)
+        return self.request('ticker/{}'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(HitBTCFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
         if self.REST.version == '1':
-            return self.request('%s/orderbook' % pair, params=kwargs)  # Version 1
-        return self.request('orderbook/%s' % pair, params=kwargs)  # Version 2
+            return self.request('{}/orderbook'.format(pair), params=kwargs)  # Version 1
+        return self.request('orderbook/{}'.format(pair), params=kwargs)  # Version 2
 
     @check_and_format_pair
     @format_with(HitBTCFormattedResponse)
@@ -61,10 +61,10 @@ class HitBTC(RESTInterface):
         """Return the trades for the given pair."""
         if self.REST.version == '1':
             if 'from' not in kwargs:
-                return self.request('%s/trades/recent' % pair, params=kwargs)
-            return self.request('%s/trades', params=kwargs)
+                return self.request('{}/trades/recent'.format(pair), params=kwargs)
+            return self.request('{}/trades'.format(pair), params=kwargs)
         else:
-            return self.request('trades/%s' % pair, params=kwargs)
+            return self.request('trades/{}'.format(pair), params=kwargs)
 
     # Private Endpoints
     # pylint: disable=unused-argument

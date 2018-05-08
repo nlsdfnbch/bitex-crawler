@@ -8,7 +8,6 @@ from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
 from bitex.formatters import CoinnestFormattedResponse
 
-
 # Init Logging Facilities
 log = logging.getLogger(__name__)
 
@@ -55,13 +54,13 @@ class Coinnest(RESTInterface):
     @format_with(CoinnestFormattedResponse)
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for a given pair."""
-        return self.request('api/pub/ticker?coin=%s' % pair, params=kwargs)
+        return self.request('api/pub/ticker?coin={}'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(CoinnestFormattedResponse)
     def order_book(self, pair, *args, **kwargs):
         """Return the order_book for a given pair."""
-        return self.request('/api/pub/depth?coin=%s' % pair, params=kwargs)
+        return self.request('/api/pub/depth?coin={}'.format(pair), params=kwargs)
 
     @check_and_format_pair
     @format_with(CoinnestFormattedResponse)

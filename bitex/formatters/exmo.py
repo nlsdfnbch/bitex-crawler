@@ -42,7 +42,7 @@ class ExmoFormattedResponse(APIResponse):
         timestamp = datetime.utcnow()
         for trade in data:
             tradelst.append({'id': trade['trade_id'], 'price': trade['price'],
-                             'qty': trade['quantity'], 'time': int(trade['date'])*1000,
+                             'qty': trade['quantity'], 'time': int(trade['date']) * 1000,
                              'isBuyerMaker': trade['type'] == 'buy', 'isBestMatch': None})
             # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
             # raise NotImplementedError

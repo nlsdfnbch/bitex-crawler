@@ -21,7 +21,7 @@ class GateioFormattedResponse(APIResponse):
         high = data["high24hr"]
         low = data["low24hr"]
         last = data["last"]
-        volume = data["quoteVolume"]    # "quoteVolume"
+        volume = data["quoteVolume"]  # "quoteVolume"
         timestamp = datetime.utcnow()
         return super(GateioFormattedResponse, self).ticker(bid, ask, high, low, last, volume,
                                                            timestamp)
@@ -40,7 +40,7 @@ class GateioFormattedResponse(APIResponse):
         timestamp = datetime.utcnow()
         for trade in data:
             tradelst.append({'id': trade['tradeID'], 'price': trade['rate'], 'qty': trade['amount'],
-                             'time': float(trade['timestamp'])*1000,
+                             'time': float(trade['timestamp']) * 1000,
                              'isBuyerMaker': trade['type'] == 'buy', 'isBestMatch': None})
             # what meaning isBuyerMaker is? if we should remain it in all trades formatter?
             # raise NotImplementedError

@@ -1,7 +1,7 @@
-"""Bitstamp REST API backend.
+"""Kraken REST API backend.
 
 Documentation available here:
-    https://www.bitstamp.net/api/
+    https://www.kraken.com/en-us/help/api
 """
 # Import Built-ins
 import logging
