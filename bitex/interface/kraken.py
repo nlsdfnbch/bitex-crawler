@@ -7,6 +7,7 @@ from bitex.api.REST.kraken import KrakenREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
 from bitex.formatters import KrakenFormattedResponse
+from bitex.exceptions import PairFetchError
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
@@ -21,18 +22,27 @@ class Kraken(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        r = self.request('AssetPairs').json()['result']
-        return [r[k]['base'] + r[k]['quote'] if r[k]['base'] != 'BCH'
-                else k for k in r]
+        r = self.request('AssetPairs')
+        if not r.ok:
+            raise PairFetchError(r.ok,r.status_code,r.reason)
+
+        r=r.json()['result']
+        return r.keys()
+        #return [r[k]['base'] + r[k]['quote'] if r[k]['base'] != 'BCH' else k for k in r]
 
     def _get_supported_pairs_formatted(self):
         """Return a list of supported pairs."""
+        format_exceptions = ['BCHEUR', 'BCHUSD', 'BCHXBT', 'DASHEUR', 'DASHUSD', 'DASHXBT',
+                             'EOSETH', 'EOSXBT', 'GNOETH', 'GNOXBT',]
+
         pairs = self._supported_pairs
         pairs_formatted = []
         for pair in pairs:
-            if pair[:3] == 'BCH':
+            if pair[:3] in ['BCH', 'EOS', 'GNO']:
                 base, quote = pair[:3], pair[3:]
             elif pair[-3:] == 'BCH':
+                base, quote = pair[:-3], pair[-3:]
+            elif pair in format_exceptions:
                 base, quote = pair[:-3], pair[-3:]
             else:
                 base, quote = pair[:-4], pair[-4:]

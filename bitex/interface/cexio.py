@@ -10,6 +10,7 @@ from bitex.api.REST.cexio import CEXioREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
 from bitex.formatters import CEXioFormattedResponse
+from bitex.exceptions import PairFetchError
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
@@ -32,7 +33,12 @@ class CEXio(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        r = self.request('currency_limits').json()
+        r = self.request('currency_limits')
+        if not r.ok:
+            print('CexIO PairFetch not OK',r)
+            raise PairFetchError(r.ok,r.status_code,r.reason)
+        r = r.json()
+
         pairs = [item['symbol1'] + item['symbol2'] for item in r['data']['pairs']]
         return pairs
 

@@ -10,6 +10,12 @@ import logging
 log = logging.getLogger(__name__)
 
 
+class PairFetchError(Exception):
+    pass
+
+class PublicDataFetchError(Exception):
+    pass
+
 class IncompleteCredentialsWarning(UserWarning):
     """Raised when a required parameter for authentication is not given."""
 

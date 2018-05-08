@@ -67,7 +67,7 @@ class PairFormatter:
                            'CEXio': self.cexio_formatter,
                            'Exmo': self.exmo_formatter,
                            'Coinnest': self.coinnest_formatter,
-                           'Gateio': self.gateio_formatter, }
+                           'Gateio': self.gateio_formatter,}
 
     def __str__(self, *args, **kwargs):
         """Return the stored base and quote currency in proper pair format."""
@@ -92,7 +92,7 @@ class PairFormatter:
         base = 'XBT' if base == 'BTC' else base
         quote = 'XBT' if quote == 'BTC' else quote
         format_exceptions = ['BCHEUR', 'BCHUSD', 'BCHXBT', 'DASHEUR', 'DASHUSD', 'DASHXBT',
-                             'EOSETH', 'EOSXBT', 'GNOETH', 'GNOXBT', 'USDTZUSD']
+                             'EOSETH', 'EOSXBT', 'GNOETH', 'GNOXBT']
 
         def add_prefix(cur):
             """Add the correct prefix to the currency."""
@@ -101,8 +101,12 @@ class PairFormatter:
             elif cur in ('USD', 'EUR', 'GBP', 'JPY', 'CAD'):
                 return 'Z' + cur
             return 'X' + cur
-        if (base+quote).upper() in format_exceptions:
+
+        if (base + quote).upper() in format_exceptions:
             return (base + quote).upper()
+        elif (base + quote).upper() in ['USDTUSD', ]:
+            return base + add_prefix(quote)
+
         return add_prefix(base) + add_prefix(quote)
 
     @staticmethod
@@ -128,7 +132,7 @@ class PairFormatter:
     @staticmethod
     def cexio_formatter(base, quote):
         """Format currencies for CEXIO."""
-        return base.upper()+quote.upper()
+        return base.upper() + quote.upper()
 
     @staticmethod
     def bitfinex_formatter(base, quote):

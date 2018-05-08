@@ -7,6 +7,7 @@ from bitex.api.REST.gateio import GateioREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
 from bitex.formatters import GateioFormattedResponse
+from bitex.exceptions import PairFetchError
 
 
 # Init Logging Facilities
@@ -26,8 +27,16 @@ class Gateio(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        resp = self.request('data.gateio.io/api2/1/pairs/')
-        return [pair for pair in resp.json()]
+        r = self.request('data.gateio.io/api2/1/pairs/')
+        if not r.ok:
+            raise PairFetchError(r.ok,r.status_code,r.reason)
+
+        pairs=r.json()
+        if len(pairs)<10:
+            print(pairs)
+            raise PairFetchError(pairs)
+
+        return pairs
 
     def _get_supported_pairs_formatted(self):
         """Return a list of supported pairs."""

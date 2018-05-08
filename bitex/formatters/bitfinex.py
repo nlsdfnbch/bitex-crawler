@@ -4,6 +4,7 @@ from datetime import datetime
 
 # Import Home-brewed
 from bitex.formatters.base import APIResponse
+from bitex.exceptions import PublicDataFetchError
 
 
 class BitfinexFormattedResponse(APIResponse):
@@ -14,6 +15,8 @@ class BitfinexFormattedResponse(APIResponse):
 
     def ticker(self):
         """Return namedtuple with given data."""
+        if not self.ok:
+            raise PublicDataFetchError(self.ok,self.status_code,self.reason)
         data = self.json(parse_int=str, parse_float=str)
 
         bid = data["bid"]

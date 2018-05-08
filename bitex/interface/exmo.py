@@ -7,6 +7,7 @@ from bitex.api.REST.exmo import ExmoREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, format_with
 from bitex.formatters import ExmoFormattedResponse
+from bitex.exceptions import PairFetchError
 
 
 # Init Logging Facilities
@@ -26,8 +27,11 @@ class Exmo(RESTInterface):
 
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
-        resp = self.request('v1/pair_settings/')
-        return [pair for pair in resp.json()]
+        r = self.request('v1/pair_settings/')
+        if not r.ok:
+            raise PairFetchError(r.ok,r.status_code,r.reason)
+
+        return r.json()
 
     def request(self, endpoint, authenticate=False, **kwargs):
         """Generate a request to the API."""
