@@ -30,14 +30,14 @@ class BitfinexREST(APIClient):
             req = {}
         if self.version == 'v1':
             req['request'] = endpoint_path
-            req['nonce'] = self.nonce()
+            req['nonce'] = self.nonce() * 100
             try:
                 symbol = kwargs['symbol']
                 req['symbol'] = symbol
             except Exception as e:
                 try:
-                    symbol = kwargs['currency']
-                    req['currency'] = symbol
+                    currency = kwargs['currency']
+                    req['currency'] = currency
                 except Exception as e:
                     print()
             js = json.dumps(req)
@@ -53,6 +53,5 @@ class BitfinexREST(APIClient):
             headers = {'bfx-nonce': self.nonce(),
                        'bfx-apikey': self.key,
                        'bfx-signature': signature,
-                       'btx-payload': data,
                        'content-type': 'application/json'}
         return url, {'headers': headers}

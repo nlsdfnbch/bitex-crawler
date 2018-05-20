@@ -53,7 +53,7 @@ class APIClient(metaclass=ABCMeta):
         Creates a Nonce value for signature generation
         :return:
         """
-        return str(round(100000 * time.time()) * 2) 
+        return str(int(round(time.time() * 1000000)))
 
     @staticmethod
     def api_request(*args, **kwargs):

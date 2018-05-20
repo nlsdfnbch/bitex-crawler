@@ -30,7 +30,7 @@ class BitfinexREST(APIClient):
             req = {}
         if self.version == 'v1':
             req['request'] = endpoint_path
-            req['nonce'] = self.nonce()
+            req['nonce'] = self.nonce() * 100
             try:
                 symbol = kwargs['symbol']
                 req['symbol'] = symbol
