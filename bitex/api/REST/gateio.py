@@ -27,31 +27,27 @@ class GateioREST(RESTAPI):
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""
-        def getsign(params, secret):
-            """Caculate signature using params and secret."""
-            bsecret = secret.encode('utf-8')
-
-            sign = ''
-            for key in params.keys():
-                value = str(params[key])
-                sign += key + '=' + value + '&'
-            bsign = sign[:-1].encode('utf-8')
-
-            mysign = hmac.new(bsecret, bsign, hashlib.sha512).hexdigest()
-            return mysign
-
         req_kwargs = super(GateioREST, self).sign_request_kwargs(endpoint, **kwargs)
 
         req_kwargs.pop('json')  # req_kwargs can not include json, or will 'Error: invalid data'
         # Parameters go into headers & data, so pop params key and generate signature
         params = req_kwargs.pop('params')
 
+        # Caculate signature using params and secret.
+        bsecret = self.secret.encode('utf-8')
+        sign = ''
+        for key in params.keys():
+            value = str(params[key])
+            sign += key + '=' + value + '&'
+        bsign = sign[:-1].encode('utf-8')
+
+        mysign = hmac.new(bsecret, bsign, hashlib.sha512).hexdigest()
+
         # Update headers and data
         req_kwargs['headers'] = {
             "Content-type": "application/x-www-form-urlencoded",
             "KEY": self.key,
-            "SIGN": getsign(params, self.secret)
+            "SIGN": mysign
         }
-        # req_kwargs['data'] = params
 
         return req_kwargs

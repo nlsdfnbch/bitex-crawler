@@ -45,7 +45,7 @@ class BithumbREST(RESTAPI):
         sign = hmac.new(self.secret.encode("utf-8"), msg=message.encode("utf-8"),
                         digestmod=hashlib.sha512)
         signature = sign.hexdigest()
-        signature = (base64.b64encode(signature.encode('utf-8'))).decode('utf-8')
+        signature = base64.b64encode(signature.encode('utf-8')).decode('utf-8')
 
         # Update headers and data
         req_kwargs['headers'] = {"Api-Key": self.key,

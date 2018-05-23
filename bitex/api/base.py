@@ -41,9 +41,9 @@ class BaseAPI:
                              "Pass None instead!")
 
         self.addr = addr
-        self.key = key if key else None
-        self.secret = secret if secret else None
-        self.version = version if version else None
+        self.key = key or None
+        self.secret = secret or None
+        self.version = version or None
 
         try:
             self.check_auth_requirements()
