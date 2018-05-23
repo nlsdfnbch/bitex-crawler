@@ -23,19 +23,20 @@ log = logging.getLogger(__name__)
 class QuadrigaCXREST(RESTAPI):
     """QuadrigaCX REST API class."""
 
-    def __init__(self, key=None, secret=None, client_id=None, version=None,
-                 addr=None, timeout=5, config=None):
+    def __init__(self, key=None, secret=None, version=None,
+                 addr=None, timeout=5, config=None, **kwargs):
         """Initialize the class instance."""
         version = 'v2' if not version else version
         addr = 'https://api.quadrigacx.com' if not addr else addr
 
+        client_id=kwargs['user_id']
         if client_id == '':
             raise ValueError("Invalid client id - cannot be empty string! "
                              "Pass None instead!")
         self.client_id = client_id
         super(QuadrigaCXREST, self).__init__(addr=addr, version=version,
                                              key=key, secret=secret,
-                                             timeout=timeout, config=config)
+                                             timeout=timeout, config=config, **kwargs)
 
     def check_auth_requirements(self):
         """Check if authentication requirements are met."""

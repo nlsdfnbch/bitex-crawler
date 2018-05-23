@@ -20,14 +20,13 @@ log = logging.getLogger(__name__)
 class QuoineREST(RESTAPI):
     """Quoine REST API class."""
 
-    def __init__(self, key=None, secret=None, version=None, config=None,
-                 addr=None, timeout=5):
+    def __init__(self, key=None, secret=None, version=None, config=None, addr=None, timeout=5,
+                 **kwargs):
         """Initialize the class instance."""
         addr = 'https://api.quoine.com/' if not addr else addr
         version = '2' if not version else version
-        super(QuoineREST, self).__init__(addr=addr, version=version,
-                                         key=key, secret=secret, config=config,
-                                         timeout=timeout)
+        super(QuoineREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                         config=config, timeout=timeout, **kwargs)
 
     def generate_uri(self, endpoint):
         """Generate a Unique Resource Identifier (URI).

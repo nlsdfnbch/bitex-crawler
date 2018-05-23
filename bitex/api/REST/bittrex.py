@@ -19,14 +19,13 @@ log = logging.getLogger(__name__)
 class BittrexREST(RESTAPI):
     """Bittrex REST API class."""
 
-    def __init__(self, key=None, secret=None, version=None,
-                 addr=None, timeout=5, config=None, user_id=None, proxies=None):
+    def __init__(self, key=None, secret=None, version=None, addr=None, timeout=5, config=None,
+                 **kwargs):
         """Initialize the class instance."""
         version = 'v1.1' if not version else version
         addr = 'https://bittrex.com/api' if not addr else addr
-        super(BittrexREST, self).__init__(addr=addr, version=version, key=key,
-                                          secret=secret, timeout=timeout,
-                                          config=config, proxies=proxies)
+        super(BittrexREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                          timeout=timeout, config=config, **kwargs)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request.

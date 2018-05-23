@@ -22,19 +22,17 @@ log = logging.getLogger(__name__)
 class GeminiREST(RESTAPI):
     """Gemini REST API class."""
 
-    def __init__(self, key=None, secret=None, version=None,
-                 addr=None, timeout=5, config=None):
+    def __init__(self, key=None, secret=None, version=None, addr=None, timeout=5, config=None,
+                 **kwargs):
         """Initialize the class instance."""
         addr = 'https://api.gemini.com' if not addr else addr
         version = 'v1' if not version else version
-        super(GeminiREST, self).__init__(addr=addr, version=version, key=key,
-                                         secret=secret, timeout=timeout,
-                                         config=config)
+        super(GeminiREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                         timeout=timeout, config=config, **kwargs)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""
-        req_kwargs = super(GeminiREST, self).sign_request_kwargs(endpoint,
-                                                                 **kwargs)
+        req_kwargs = super(GeminiREST, self).sign_request_kwargs(endpoint, **kwargs)
 
         # Prepare Payload
         nonce = self.nonce()

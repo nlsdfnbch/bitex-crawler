@@ -21,14 +21,13 @@ log = logging.getLogger(__name__)
 class RockTradingREST(RESTAPI):
     """The Rock Trading Ltd REST API class."""
 
-    def __init__(self, key=None, secret=None, version=None, config=None,
-                 addr=None, timeout=5):
+    def __init__(self, key=None, secret=None, version=None, config=None, addr=None, timeout=5,
+                 **kwargs):
         """Initialize the class instance."""
         version = 'v1' if not version else version
         addr = 'https://api.therocktrading.com' if not addr else addr
-        super(RockTradingREST, self).__init__(addr=addr, version=version,
-                                              key=key, secret=secret,
-                                              timeout=timeout, config=config)
+        super(RockTradingREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                              timeout=timeout, config=config, **kwargs)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""

@@ -20,14 +20,13 @@ log = logging.getLogger(__name__)
 class KrakenREST(RESTAPI):
     """Kraken REST API class."""
 
-    def __init__(self, key=None, secret=None, version=None, user_id=None,
-                 addr=None, timeout=5, config=None, proxies=None):
+    def __init__(self, key=None, secret=None, version=None, addr=None, timeout=5, config=None,
+                 **kwargs):
         """Initialize the class instance."""
         addr = 'https://api.kraken.com' if not addr else addr
         version = '0' if not version else version
-        super(KrakenREST, self).__init__(addr=addr, version=version, key=key,
-                                         config=config, secret=secret,
-                                         timeout=timeout, proxies=proxies)
+        super(KrakenREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                         config=config, timeout=timeout, **kwargs)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""

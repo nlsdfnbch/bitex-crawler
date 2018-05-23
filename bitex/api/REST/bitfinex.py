@@ -29,13 +29,12 @@ class BitfinexREST(RESTAPI):
     """Bitfinex REST API class."""
 
     def __init__(self, addr=None, key=None, secret=None, version=None, config=None, timeout=None,
-                 user_id=None, proxies=None):
+                 **kwargs):
         """Initialize the class instance."""
         addr = 'https://api.bitfinex.com' if not addr else addr
         version = 'v1' if not version else version
-        super(BitfinexREST, self).__init__(addr=addr, version=version, key=key,
-                                           secret=secret, timeout=timeout,
-                                           config=config, proxies=proxies)
+        super(BitfinexREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                           timeout=timeout, config=config, **kwargs)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""

@@ -17,13 +17,12 @@ class HitBTCREST(RESTAPI):
     """HitBTC REST API class."""
 
     def __init__(self, key=None, secret=None, version=None, addr=None, timeout=5, config=None,
-                 user_id=None, proxies=None):
+                 **kwargs):
         """Initialize the class instance."""
         version = '2' if not version else version
         addr = 'https://api.hitbtc.com/api' if not addr else addr
-        super(HitBTCREST, self).__init__(addr=addr, version=version,
-                                         key=key, secret=secret,
-                                         timeout=timeout, config=config, proxies=proxies)
+        super(HitBTCREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                         timeout=timeout, config=config, **kwargs)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""

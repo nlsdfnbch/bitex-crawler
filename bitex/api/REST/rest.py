@@ -22,19 +22,20 @@ class RESTAPI(BaseAPI):
     """
 
     def __init__(self, addr, timeout=None, key=None, secret=None, version=None,
-                 config=None, proxies=None):
+                 config=None,  **kwargs):
         """
         Initialize the RESTAPI instance.
 
-        :param addr: str, API URL (excluding endpoint paths, if applicable)
+        :param addr: str, API URL (excluding endpoint paths, if applicable
         :param key: str, API key
         :param secret: str, API secret
         :param config: str, path to config file
         :param timeout: int or float, defines timeout for requests to API
         """
-        super(RESTAPI, self).__init__(addr=addr, key=key, secret=secret,
-                                      version=version, config=config, proxies=proxies)
+        super(RESTAPI, self).__init__(addr=addr, key=key, secret=secret, version=version,
+                                      config=config)
         self.timeout = timeout if timeout else 10
+        self.proxies = kwargs['proxies'] if 'proxies' in kwargs else None
 
     def generate_uri(self, endpoint):
         """
@@ -82,7 +83,7 @@ class RESTAPI(BaseAPI):
         :return: request.Response() object
         """
         # self.proxies = {"http": "http://127.0.0.1:1087", "https": "http://127.0.0.1:1087"}
-        # print(method_verb,request_kwargs)
+        print(method_verb,request_kwargs)
         if 'method' not in request_kwargs:
             resp = requests.request(method_verb, **request_kwargs, proxies=self.proxies,
                                     timeout=self.timeout)

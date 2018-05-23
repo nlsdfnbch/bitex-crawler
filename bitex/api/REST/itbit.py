@@ -23,20 +23,20 @@ log = logging.getLogger(__name__)
 class ITbitREST(RESTAPI):
     """ItBit REST API class."""
 
-    def __init__(self, user_id=None, key=None, secret=None, version=None,
-                 addr=None, timeout=5, config=None):
+    def __init__(self, key=None, secret=None, version=None, addr=None, timeout=5, config=None,
+                 **kwargs):
         """Initialize the class instance."""
         version = 'v1' if not version else version
         addr = 'https://api.itbit.com' if not addr else addr
 
+        user_id = kwargs['user_id']
         if user_id == '':
             raise ValueError("Invalid user id - cannot be empty string! "
                              "Pass None instead!")
         self.user_id = user_id
         self._nonce = 0
-        super(ITbitREST, self).__init__(addr=addr, version=version, key=key,
-                                        secret=secret, timeout=timeout,
-                                        config=config)
+        super(ITbitREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                        timeout=timeout, config=config, **kwargs)
 
     def check_auth_requirements(self):
         """Check if authentication requirements are met."""

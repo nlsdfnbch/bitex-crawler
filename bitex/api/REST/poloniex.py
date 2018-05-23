@@ -23,13 +23,12 @@ log = logging.getLogger(__name__)
 class PoloniexREST(RESTAPI):
     """Poloniex REST API class."""
 
-    def __init__(self, key=None, secret=None, version=None, config=None,
-                 addr=None, timeout=5, user_id=None, proxies=None):
+    def __init__(self, key=None, secret=None, version=None, config=None, addr=None, timeout=5,
+                 **kwargs):
         """Initialize the class instance."""
         addr = 'https://poloniex.com' if not addr else addr
-        super(PoloniexREST, self).__init__(addr=addr, version=version,
-                                           key=key, secret=secret,
-                                           timeout=timeout, config=config, proxies=proxies)
+        super(PoloniexREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                           timeout=timeout, config=config, **kwargs)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""

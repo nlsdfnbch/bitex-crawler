@@ -52,18 +52,18 @@ class GDAXAuth(AuthBase):
 class GDAXREST(RESTAPI):
     """GDAX REST API class."""
 
-    def __init__(self, passphrase=None, key=None, secret=None, version=None,
-                 addr=None, config=None, timeout=5):
+    def __init__(self, key=None, secret=None, version=None, addr=None, config=None, timeout=5,
+                 **kwargs):
         """Initialize the class instance."""
+        passphrase = kwargs['user_id']
         if passphrase == '':
             raise ValueError("Invalid user id - cannot be empty string! "
                              "Pass None instead!")
         self.passphrase = passphrase
         addr = 'https://api.gdax.com' if not addr else addr
 
-        super(GDAXREST, self).__init__(addr=addr, version=version, key=key,
-                                       secret=secret, timeout=timeout,
-                                       config=config)
+        super(GDAXREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                       timeout=timeout, config=config, **kwargs)
 
     def check_auth_requirements(self):
         """Check if authentication requirements are met."""

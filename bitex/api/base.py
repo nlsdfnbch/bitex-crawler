@@ -25,7 +25,7 @@ class BaseAPI:
     extended in subclasses to cover any additional parameters that are necessary.
     """
 
-    def __init__(self, *, addr, key, secret, version, config, proxies=None):
+    def __init__(self, *, addr, key, secret, version, config):
         """
         Initialize a BaseAPI instance.
 
@@ -44,7 +44,6 @@ class BaseAPI:
         self.key = key if key else None
         self.secret = secret if secret else None
         self.version = version if version else None
-        self.proxies = proxies if proxies else None
 
         try:
             self.check_auth_requirements()

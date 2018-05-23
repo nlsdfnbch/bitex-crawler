@@ -20,13 +20,13 @@ log = logging.getLogger(__name__)
 class CEXioREST(RESTAPI):
     """CEX.IO REST API class."""
 
-    def __init__(self, addr=None, user_id=None, key=None, secret=None, version=None, config=None,
-                 timeout=None, proxies=None):
+    def __init__(self, addr=None, key=None, secret=None, version=None, config=None, timeout=None,
+                 **kwargs):
         """Initialize the class instance."""
         addr = 'https://cex.io/api' if not addr else addr
-        self.user_id = user_id
+        self.user_id = kwargs['user_id']
         super(CEXioREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
-                                        timeout=timeout, config=config, proxies=proxies)
+                                        timeout=timeout, config=config, **kwargs)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""

@@ -39,13 +39,12 @@ def decode_base64(data):
 class CryptopiaREST(RESTAPI):
     """Cryptopia REST API class."""
 
-    def __init__(self, key=None, secret=None, version=None, config=None,
-                 addr=None, timeout=5, user_id=None, proxies=None):
+    def __init__(self, key=None, secret=None, version=None, config=None, addr=None, timeout=5,
+                 **kwargs):
         """Initialize the class instance."""
         addr = 'https://www.cryptopia.co.nz/api' if not addr else addr
-        super(CryptopiaREST, self).__init__(addr=addr, version=version, key=key,
-                                            secret=secret, timeout=timeout,
-                                            config=config)
+        super(CryptopiaREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                            timeout=timeout, config=config, **kwargs)
 
     def _query(self, method_verb, **request_kwargs):
         """Query the Cryptopia REST API.

@@ -22,13 +22,12 @@ log = logging.getLogger(__name__)
 class VaultoroREST(RESTAPI):
     """Vaultoro REST API class."""
 
-    def __init__(self, key=None, secret=None, version=None,
-                 addr=None, timeout=5, config=None):
+    def __init__(self, key=None, secret=None, version=None, addr=None, timeout=5, config=None,
+                 **kwargs):
         """Initialize the class instance."""
         addr = 'https://api.vaultoro.com' if not addr else addr
-        super(VaultoroREST, self).__init__(addr=addr, version=version,
-                                           key=key, secret=secret,
-                                           timeout=timeout, config=config)
+        super(VaultoroREST, self).__init__(addr=addr, version=version, key=key, secret=secret,
+                                           timeout=timeout, config=config, **kwargs)
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""
